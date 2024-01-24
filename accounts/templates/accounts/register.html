@@ -4,8 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+   
 </head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.container {
+    margin: 100px auto;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+#studentBtn {
+    background-color: #3498db;
+    color: #fff;
+}
+#recruiterBtn {
+    background-color: #e74c3c;
+    color: #fff;
+}
+</style>
 <body>
-    <H1>register</H1>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <p>Choose your role:</p>
+        <button class="studentBtn">
+            <a href="{% url 'student' %}">As a Student</a>
+        </button>
+        <button class="recruiterBtn">
+            <a href="{% url 'recruiter' %}">As a Recruiter</a>
+        </button>
+    </div>
 </body>
 </html>
