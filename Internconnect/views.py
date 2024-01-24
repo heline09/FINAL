@@ -1,25 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm
-
-def registerPage(request):
-    return render(request, 'accounts/register.html')
-
-def student(request):
-     if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            #login(request, user)
-          #   messages.success(request, 'Registration succesful!')
-            return redirect('signin')  
-     else:
-        form =CreateUserForm()
-
-        return render(request, 'accounts/student.html', {'form': form})
-     # if request.method == 'POST':
+ # if request.method == 'POST':
      #    username = request.POST['username']
      #    email = request.POST['email']
      #    pass1 = request.POST['pass1']
@@ -37,20 +19,15 @@ def student(request):
         
      # return render(request, 'accounts/signin.html')
 
-def recruiter(request):
-     return render(request, 'accounts/recruiter.html') # recruiter registration page
-
-def loginPage(request):
-     return render(request, 'accounts/signin.html')
 
 def home(request):
-    return render(request, 'Internconnect/dashboard.html')
+    return render(request, 'internconnect/dashboard.html')
 
 def listings(request):
-     return render(request, 'Internconnect/listings.html')
+     return render(request, 'internconnect/listings.html')
 
 def application(request):
-     return render(request, 'Internconnect/application.html')
+     return render(request, 'internconnect/application.html')
 
 
 
