@@ -1,8 +1,65 @@
 {% extends 'internconnect/main.html' %}
 
 {% block content %}
-
-<p>listings</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search Example</title>
+    <!-- Add any necessary CSS or JavaScript files here -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jobsearch-container">
+                    <div class="jobsearch-header">
+                       <h2>Job Search</h2>
+                    </div>
+                    <div class="jobsearch-content">
+                        <form class="jobsearch-form">
+                            <div class="form-group">
+                                <label class="control-label" for="search">Search:</label>
+                                <input class="form-control" type="text" id="search" name="search">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
+                        <div class="jobsearch-results">
+                            <div class="jobsearch-pagination">
+                                <ul class="pagination">
+                                    <!-- Pagination links here -->
+                                </ul>
+                            </div>
+                            <div class="jobsearch-list">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <div class="result-item">
+                                            <div class="result-title">Job Title 1</div>
+                                            <div class="result-company">Company Name 1</div>
+                                            <div class="result-location">Location 1</div>
+                                            <div class="result-actions">
+                                                <!-- Action buttons here -->
+                                                <a href="{% url 'description' %}"></a>
+                                            </div>
+                                        </div>
+                                          
+                                    </li>
+                                    <!-- More result items here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
 {% endblock %}
 

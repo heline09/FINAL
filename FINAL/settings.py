@@ -81,8 +81,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'internconnect',
+        'USER': 'root',
+        'PASSWORD': 'l18j09e27k17',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
