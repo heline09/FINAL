@@ -1,0 +1,26 @@
+{% extends 'internconnect/main.html' %}
+
+{% block content %}
+
+<p>Job Description</p>
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Click the button to change the text</h2>
+
+<p id="demo">This is a demonstration.</p>
+
+<button onclick="changeText()">Click me</button>
+<!-- JS demo -->
+<script>
+function changeText() {
+  document.getElementById("demo").innerHTML = "The text has been changed.";
+}
+</script>
+
+</body>
+</html>
+{% endblock %} 

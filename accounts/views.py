@@ -13,9 +13,10 @@ def student(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            #login(request, user)
-            #messages.success(request, 'Registration succesful!')
-            return HttpResponse(request, 'accounts/signin.html')  
+            user = authenticate(username = username, password = password)
+            login(request, user)
+            return redirect('/')
+            
      else:
         form =CreateUserForm()
 
