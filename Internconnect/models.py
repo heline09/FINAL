@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import User 
+from accounts.models import CustomUser
 
 class Internship(models.Model):
     title = models.CharField(max_length=255)
@@ -18,7 +18,7 @@ class Internship(models.Model):
 
 class Application(models.Model):
     internship = models.ForeignKey(Internship, on_delete=models.CASCADE)
-    applicant = models. ForeignKey(User, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     cover_letter = models.TextField()
     status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')])
 

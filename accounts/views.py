@@ -1,57 +1,56 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout # library for user authentication
+from django.contrib.auth import authenticate, logout, login as auth_login # library for user authentication
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from . forms import UserRegisterForm
 
 
-def registerPage(request):    
+def registerPage(request):  
+     form = UserRegisterForm()  
      if request.method == "POST":
-          username = request.POST.get('uname')
-          email = request.POST.get('email')
-          password1 = request.POST.get('pass1')
-          password2 = request.POST.get('pass2')
-          role = request.POST.get('role')
-
-          # check if username exists
-
-          if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username is already taken. Please choose a different one.')
-            return redirect('register')  # Redirect back to the registration form
-
-           # check if passwords match
-          if password1 != password2:
-            messages.error(request, 'Passwords do not match. Please try again.')
-            return redirect('register')  # Redirect back to the registration form
-
-            # create new user
-          new_user = User.objects.create_user(username, email, password1)
-          new_user.save()
-
-          messages.success(request, f'Hi {username}, your account has been created successfully')
-          return redirect('signin')
-
-     return render(request, 'accounts/register.html')
+          form = UserRegisterForm(request.POST)
+          if form.is_valid():
+               CustomUser = form.save()
+               username = form.cleaned_data.get('username')
+               messages.success(request, f'Account created successfully for {username}, you can now login') 
+               return redirect('login')    
+          else: 
+               for field, errors in form.errors.items():
+                    for error in errors:
+                         err_msg = error.capitalize()
+                         messages.error(request, err_msg)       
+     elif request.method == "GET":
+          if request.user.is_authenticated:
+               return redirect('/')
+         
+     context = {'form': form}
+     return render(request, 'accounts/register.html', context)
 
 
 def loginPage(request):
+     username = ''
+     password = ''
      if request.method == "POST":
-          username = request.POST.get('uname')
-          password = request.POST.get('pass')
+          username = request.POST.get("username", '')
+          password = request.POST.get("password", '')
 
           user = authenticate(request, username = username, password = password) # watch out for TypeError here (0 to 1)positiona args..
           if user is not None:                           #if user exists, redirect to homepage
-                login(request, user)
+                auth_login(request, user)
                 return redirect('/')
           else:
-               return HttpResponse('Error: User does not exist')
-          
-     return render(request, 'accounts/signin.html')  # if absent results into a ValueError HttpResponse Object
+              messages.error(request, 'Username or Password is incorrect')
+     elif request.method =="GET":
+         if request.user.is_authenticated:
+              return redirect('/')     
+     context = {'username': username, 'password':password}
+     return render(request, 'accounts/login.html')  # if absent results into a ValueError HttpResponse Object
 
 
 def logoutUser(request):
      logout(request)
-     return redirect('signin')
+     return redirect('login')
 
 
 def recruiter(request):

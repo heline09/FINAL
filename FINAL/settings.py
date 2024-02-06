@@ -80,14 +80,21 @@ WSGI_APPLICATION = 'FINAL.wsgi.application'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
+    # test with sqlite first
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'internconnect',
-        'USER': 'root',
-        'PASSWORD': 'l18j09e27k17',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        "NAME": BASE_DIR / "db.sqlite3",
     }
+
+    # you need to delete the mysql db then recreate it
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'internconnect',
+    #     'USER': 'root',
+    #     'PASSWORD': 'l18j09e27k17',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    # }
 }
 
 
@@ -109,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -126,9 +133,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
-MEDIA_URL = '/images/'
+MEDIA_URL = 'images/'
+MEDIA_ROOT = BASE_DIR / "media"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static', )
