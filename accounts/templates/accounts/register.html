@@ -1,57 +1,147 @@
+{% include 'internconnect/main.html' %}
+
+{% block content %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-   
-</head>
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-.container {
-    margin: 100px auto;
-    max-width: 400px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-}
-#studentBtn {
-    background-color: #3498db;
-    color: #fff;
-}
-#recruiterBtn {
-    background-color: #e74c3c;
-    color: #fff;
-}
-</style>
-<body>
-    <div class="container">
-        <h2>Sign Up</h2>
-        <p>Choose your role:</p>
-        <button class="studentBtn">
-            <a href="{% url 'student' %}">As a Student</a>
-        </button>
-        <button class="recruiterBtn">
-            <a href="{% url 'recruiter' %}">As a Recruiter</a>
-        </button>
-    </div>
-</body>
+<html>
+
+   <head>
+        <title>Register</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    
+    
+        <style>
+            body,
+            html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                background: light rgb(109, 108, 108)!important;
+            }
+            .user_card {
+                width: 350px;
+                margin-top: auto;
+                margin-bottom: auto;
+                background:  lightslategray;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                padding: 10px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                border-radius: 5px;
+    
+            }
+    
+            .form_container {
+                margin-top: 20px;
+            }
+    
+            #form-title{
+                color: #fff;
+                
+            }
+    
+            .signup_btn {
+                width: 100%;
+                background: #33ccff !important;
+                color: white !important;
+            }
+            .signup_btn:focus {
+                box-shadow: none !important;
+                outline: 0px !important;
+            }
+            .register_container {
+                padding: 0 2rem;
+            }
+            .input-group-text {
+                background: #f7ba5b !important;
+                color: white !important;
+                border: 0 !important;
+                border-radius: 0.25rem 0 0 0.25rem !important;
+            }
+            .input_user,
+            .input_pass:focus {
+                box-shadow: none !important;
+                outline: 0px !important;
+            }
+    
+            #messages{
+                background-color: grey;
+                color: #fff;
+                padding: 10px;
+                margin-top: 10px;
+            }
+        </style>
+    
+    </head>
+    <body>
+        
+        <div class="container h-100">
+            <div class="d-flex justify-content-center h-100">
+                <div class="user_card">
+                    <div class="d-flex justify-content-center">
+    
+    
+                        <h3 id="form-title">REGISTER</h3>
+                    </div>
+                    <div class="d-flex justify-content-center form_container">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" name="uname" placeholder="Username..." class="form-control">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="text" name="email" placeholder="Email Address..." class="form-control">
+                            </div>
+                            <!-- New div for role selection -->
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <select name="role" class="form-control">
+                                    <option value="student">Student</option>
+                                    <option value="recruiter">Recruiter</option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                    <input type="password" name="pass1" placeholder="password..." class="form-control" >
+                            </div>
+                                                     <div class="input-group mb-2">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                    <input type="password" name="pass2" placeholder="Confirm password..." class="form-control" >
+                            </div>
+    
+                                <div class="d-flex justify-content-center mt-3 register_container">
+                                     <input class="btn signup_btn" type="submit" value="Register">
+                                   </div>
+                        </form>
+    
+                    </div>
+            
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-center links">
+                            Already have an account? <a href="{% url 'signin' %}" class="ml-2">Login</a>
+                        </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </body>
 </html>

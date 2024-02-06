@@ -1,9 +1,13 @@
-body{
-    background-color: aliceblue;
+/* body{
+   background-image: url"{% static 'images/back.jpg' %}";
+   background-size: cover;
+   background-attachment: fixed;
+
+
     
 }
 h5{
     font-size: large;
     font-family: sans-serif;
     color: palegoldenrod;
-}
+} */

@@ -22,7 +22,7 @@ class Application(models.Model):
     cover_letter = models.TextField()
     status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')])
 
-
+    
     def __str__ (self):
        return f"{self.applicant.username} - {self.internship.title} - {self.status}"
         
