@@ -80,21 +80,20 @@ WSGI_APPLICATION = 'FINAL.wsgi.application'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
-    # test with sqlite first
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-
-    # you need to delete the mysql db then recreate it
+    # for testing
     # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'internconnect',
-    #     'USER': 'root',
-    #     'PASSWORD': 'l18j09e27k17',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     "NAME": BASE_DIR / "db.sqlite3",
     # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'internconnect',
+        'USER': 'root',
+        'PASSWORD': 'l18j09e27k17',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
 }
 
 

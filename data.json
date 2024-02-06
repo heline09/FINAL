@@ -1,0 +1,54 @@
+[
+    {
+        "model": "internconnect.internship",
+        "pk": 1,
+        "fields": {
+            "title": "Executive Director",
+            "company": "BigCorp",
+            "description": "enthusiastic and passionate about their work",
+            "start_date": "2024-03-13",
+            "end_date": "2024-06-13",
+            "location": "Nairobi, Kenya",
+            "requirements": "CV and coverletter"
+        }
+    },
+    {
+        "model": "internconnect.internship",
+        "pk": 2,
+        "fields": {
+            "title": "Software Engineer",
+            "company": "Unicorporation",
+            "description": "fluent in Python and Django Framework",
+            "start_date": "2024-05-13",
+            "end_date": "2024-08-13",
+            "location": "Nairobi, Kenya",
+            "requirements": "CV"
+        }
+    },
+    {
+        "model": "internconnect.internship",
+        "pk": 3,
+        "fields": {
+            "title": "Project Manager",
+            "company": "Mesh Factory",
+            "description": "managing subordinates and handing in daily reports",
+            "start_date": "2024-03-30",
+            "end_date": "2024-07-24",
+            "location": "Mombasa, Kenya",
+            "requirements": "18 years and above"
+        }
+    },
+    {
+        "model": "internconnect.internship",
+        "pk": 4,
+        "fields": {
+            "title": "DevOp",
+            "company": "Microsoft",
+            "description": "hard stuff",
+            "start_date": "2024-08-12",
+            "end_date": "2024-11-11",
+            "location": "Kisumu, Kenya",
+            "requirements": "Certificate in DevOp"
+        }
+    }
+]
