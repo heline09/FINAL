@@ -1,0 +1,47 @@
+{% extends 'recruiters/base.html' %}
+
+{% include 'internconnect/navbar2.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internships</title>
+</head>
+<body>
+
+<h2>Internships</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Company</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Location</th>
+            <th>Requirements</th>
+            <th>Recruiter</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for internship in internships %}
+        <tr>
+            <td>{{ internship.title }}</td>
+            <td>{{ internship.company }}</td>
+            <td>{{ internship.description }}</td>
+            <td>{{ internship.start_date }}</td>
+            <td>{{ internship.end_date }}</td>
+            <td>{{ internship.location }}</td>
+            <td>{{ internship.requirements }}</td>
+            <td>{{ internship.recruiter.username }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+</body>
+</html>

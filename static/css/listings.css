@@ -1,136 +1,100 @@
-/* job search form */
-.jobsearch-form {
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 10px;
-  }
-  
-  .control-label {
-    display: inline-block;
-    width: 100px;
-    text-align: right;
-    margin-bottom: 5px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 5px;
-    font-size: 14px;
-    line-height: 1.5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .btn {
-    padding: 5px 15px;
-    font-size: 14px;
-    line-height: 1.5;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0069d9;
-  }
-  /* job search results and pagination */
-  .jobsearch-results {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -15px;
-    margin-right: -15px;
-  }
-  
-  .jobsearch-pagination {
-    margin-bottom: 20px;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-  }
-  
-  .pagination li {
-    display: inline-block;
-    margin: 0 5px;
-  }
-  
-  .pagination a {
-    display: block;
-    padding: 5px 10px;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .pagination a:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .pagination .active a {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .pagination .active a:hover {
-    background-color: #0069d9;
-  }
-  /* job search result items */
-  .internship {
-    width: 300%;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    margin-left: 10px;
-    background-color: #fff;
-  }
-  
-  .result-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .result-company {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-  
-  .result-location {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  
-  .result-actions {
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .result-actions a {
-    display: block;
-    padding: 5px 10px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    color: #fff;
-    margin-left: 5px;
-  }
-  
-  .result-actions a:hover {
-    background-color: #0069d9;
-  }
-  
+/* Basic styling for the internship list */
+    body {
+  font-family: Arial, sans-serif;
+}
+
+.job-container {
+  display: grid;
+  grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+  grid-gap: 1rem;
+  padding: 1rem;
+}
+
+.job-card {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-right: 10rem;
+  margin-left: 10rem;
+  cursor: pointer; /* Added cursor pointer for interactivity */
+  transition: background-color 0.3s; /* Added transition for smooth color change */
+}
+
+.job-card:hover {
+  background-color: #e0e0e0; /* Color change on hover */
+}
+
+.job-card:active {
+  background-color: #d0d0d0; /* Color change when clicked */
+}
+
+.job-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.job-company {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 0.6rem;
+}
+
+.job-description {
+  font-size: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.job-apply {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.job-apply button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.job-apply button:hover {
+  background-color: #0056b3;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  margin-left: 1rem;
+  margin-right: 3rem;
+  margin-bottom: 1rem;
+}
+
+.search-bar-container {
+  display: inline-block;
+  position: relative;
+  color: black;
+}
+
+.search-bar {
+  flex-grow: 1;
+  padding: 1.0rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.search-button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}

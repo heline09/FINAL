@@ -1,7 +1,202 @@
 [
     {
+      "model": "internconnect.internship",
+      "pk": 1,
+      "fields": {
+        "title": "Software Developer",
+        "company": "Google",
+        "description": "Developing web applications using Django framework",
+        "start_date": "2024-08-01",
+        "end_date": "2024-12-31",
+        "location": "Mountain View, California",
+        "requirements": "Bachelor's degree in Computer Science or related field"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 2,
+      "fields": {
+        "title": "Data Scientist",
+        "company": "Facebook",
+        "description": "Analyzing user data to improve platform algorithms",
+        "start_date": "2024-09-15",
+        "end_date": "2024-12-15",
+        "location": "Menlo Park, California",
+        "requirements": "Master's degree in Data Science or related field"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 3,
+      "fields": {
+        "title": "UX/UI Designer",
+        "company": "Apple",
+        "description": "Designing intuitive user interfaces for mobile applications",
+        "start_date": "2024-10-01",
+        "end_date": "2025-01-31",
+        "location": "Cupertino, California",
+        "requirements": "Strong portfolio showcasing design skills"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 4,
+      "fields": {
+        "title": "Marketing Intern",
+        "company": "Amazon",
+        "description": "Assisting with marketing campaigns and data analysis",
+        "start_date": "2024-11-01",
+        "end_date": "2025-02-28",
+        "location": "Seattle, Washington",
+        "requirements": "Enrolled in a marketing or business program"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 5,
+      "fields": {
+        "title": "Cybersecurity Analyst",
+        "company": "Microsoft",
+        "description": "Monitoring and analyzing security threats",
+        "start_date": "2024-08-15",
+        "end_date": "2024-12-15",
+        "location": "Redmond, Washington",
+        "requirements": "Knowledge of network security protocols"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 6,
+      "fields": {
+        "title": "Finance Intern",
+        "company": "Goldman Sachs",
+        "description": "Assisting with financial analysis and reporting",
+        "start_date": "2024-09-01",
+        "end_date": "2024-12-31",
+        "location": "New York City, New York",
+        "requirements": "Major in finance or related field"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 7,
+      "fields": {
+        "title": "Product Manager Intern",
+        "company": "Uber",
+        "description": "Assisting in product development and strategy",
+        "start_date": "2024-10-15",
+        "end_date": "2025-01-15",
+        "location": "San Francisco, California",
+        "requirements": "Experience in product management or related field"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 8,
+      "fields": {
+        "title": "Human Resources Intern",
+        "company": "Netflix",
+        "description": "Assisting with recruitment and employee relations",
+        "start_date": "2024-11-01",
+        "end_date": "2025-02-28",
+        "location": "Los Gatos, California",
+        "requirements": "Major in human resources or related field"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 9,
+      "fields": {
+        "title": "Content Creation Intern",
+        "company": "Disney",
+        "description": "Creating content for social media and marketing campaigns",
+        "start_date": "2024-08-01",
+        "end_date": "2024-12-31",
+        "location": "Burbank, California",
+        "requirements": "Creative skills and familiarity with social media platforms"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 10,
+      "fields": {
+        "title": "Supply Chain Intern",
+        "company": "Walmart",
+        "description": "Optimizing supply chain processes and logistics",
+        "start_date": "2024-09-15",
+        "end_date": "2024-12-15",
+        "location": "Bentonville, Arkansas",
+        "requirements": "Understanding of logistics and supply chain management"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 11,
+      "fields": {
+        "title": "Graphic Design Intern",
+        "company": "Adobe",
+        "description": "Designing graphics and visual elements for marketing materials",
+        "start_date": "2024-10-01",
+        "end_date": "2025-01-31",
+        "location": "San Jose, California",
+        "requirements": "Proficiency in Adobe Creative Suite"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 12,
+      "fields": {
+        "title": "Legal Intern",
+        "company": "IBM",
+        "description": "Assisting with legal research and documentation",
+        "start_date": "2024-11-01",
+        "end_date": "2025-02-28",
+        "location": "Armonk, New York",
+        "requirements": "Enrolled in a law program"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 13,
+      "fields": {
+        "title": "Environmental Science Intern",
+        "company": "Tesla",
+        "description": "Researching and analyzing environmental impact of products",
+        "start_date": "2024-08-15",
+        "end_date": "2024-12-15",
+        "location": "Palo Alto, California",
+        "requirements": "Background in environmental science or related field"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 14,
+      "fields": {
+        "title": "Public Relations Intern",
+        "company": "Nike",
+        "description": "Assisting with public relations campaigns and media outreach",
+        "start_date": "2024-09-01",
+        "end_date": "2024-12-31",
+        "location": "Beaverton, Oregon",
+        "requirements": "Strong communication and writing skills"
+      }
+    },
+    {
+      "model": "internconnect.internship",
+      "pk": 15,
+      "fields": {
+        "title": "Healthcare Intern",
+        "company": "Johnson & Johnson",
+        "description": "Assisting with healthcare research and analysis",
+        "start_date": "2024-10-15",
+        "end_date": "2025-01-15",
+        "location": "New Brunswick, New Jersey",
+        "requirements": "Background in healthcare or related field"
+      }
+    },
+    {
         "model": "internconnect.internship",
-        "pk": 1,
+        "pk": 16,
         "fields": {
             "title": "Executive Director",
             "company": "BigCorp",
@@ -14,7 +209,7 @@
     },
     {
         "model": "internconnect.internship",
-        "pk": 2,
+        "pk": 17,
         "fields": {
             "title": "Software Engineer",
             "company": "Unicorporation",
@@ -27,7 +222,7 @@
     },
     {
         "model": "internconnect.internship",
-        "pk": 3,
+        "pk": 18,
         "fields": {
             "title": "Project Manager",
             "company": "Mesh Factory",
@@ -40,7 +235,7 @@
     },
     {
         "model": "internconnect.internship",
-        "pk": 4,
+        "pk": 19,
         "fields": {
             "title": "DevOp",
             "company": "Microsoft",
@@ -49,6 +244,19 @@
             "end_date": "2024-11-11",
             "location": "Kisumu, Kenya",
             "requirements": "Certificate in DevOp"
+        }
+    },
+    {
+        "model": "internconnect.internship",
+        "pk": 20, 
+        "fields": {
+            "title":"Data analyst",
+            "company":"Safaricom",
+            "description":"modelling and structuring data",
+            "start_date": "2024-05-13",
+            "end_date": "2024-11-24",
+            "location":"Nairobi, Kenya",
+            "requirements":"Degree in Computer Science and 2 years of experience"
         }
     }
 ]

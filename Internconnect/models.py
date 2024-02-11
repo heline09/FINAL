@@ -9,6 +9,7 @@ class Internship(models.Model):
     end_date = models.DateField()
     location = models. CharField(max_length=50)
     requirements = models.TextField()
+    recruiter = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="internships")
 
 
     def __str__ (self):

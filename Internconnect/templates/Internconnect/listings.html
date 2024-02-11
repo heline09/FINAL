@@ -119,41 +119,48 @@
 <!-- listings.html -->
 <div class="search-container">
     <input type="text" id="search-input" class="search-bar" placeholder="Search internships...">
-    <button id="search-button" class="search-button">Search</button>
+    <button id="search-button" class="btn-outline-secondary">Search</button>
   </div>
-<a href="#"><div id="internship-list" class="job-container"></div> </a>
-  
-<script>
-
-function openDetailsPage(internshipId) {
-    // Replace 'your_description_page_url' with the actual URL for the description page
-    window.location.href = `/details/${internshipId}`;
-  }
-  document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/internships/')
-      .then(response => response.json())
-      .then(data => {
-        const internshipListElement = document.getElementById('internship-list');
-
-        // Loop through the internship data and create HTML elements
-        data.internships.forEach(internship => {
-          const internshipElement = document.createElement('div');
-          internshipElement.className = 'job-card';
-          internshipElement.innerHTML = `
-          <div onclick = "openDetailsPage('${internship.id}')"
-            <h2 class="job-title">${internship.title}</h2>
-            <p class="job-company">${internship.company}</p>
-            <p class="job-description">${internship.description}</p>
-            <div class="job-apply">
-            </div>
-          `;
-          internshipListElement.appendChild(internshipElement);
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchButton = document.getElementById('search-button');
+        const searchInput = document.getElementById('search-input');
+        const jobCards = document.querySelectorAll('.job-card');
+    
+        searchButton.addEventListener('click', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+    
+            jobCards.forEach(function(card) {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const company = card.getAttribute('data-company').toLowerCase();
+                const description = card.getAttribute('data-description').toLowerCase();
+    
+                if (title.includes(searchTerm) || company.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         });
-      })
-      .catch(error => console.error('Error fetching internship data:', error));
+    });
+    </script>
+<div id="internship-list" class="job-container">
+    {% for internship in internships %}
+        <div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
+            <h2 class="job-title">{{ internship.title }}</h2>
+            <p class="job-company">{{ internship.company }}</p>
+            <p class="job-description">{{ internship.description }}</p>
+            <div class="job-apply"></div>
+        </div>
+    {% endfor %}
+</div>
 
-      
-  });
+<script>
+function openDetailsPage(internshipId) {
+    
+    window.location.href = `/details/${internshipId}`;
+}
+
 </script>
 
 </body>

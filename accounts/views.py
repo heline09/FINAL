@@ -38,7 +38,12 @@ def loginPage(request):
           user = authenticate(request, username = username, password = password) # watch out for TypeError here (0 to 1)positiona args..
           if user is not None:                           #if user exists, redirect to homepage
                 auth_login(request, user)
-                return redirect('/')
+                if user.role == 'recruiter':
+                    return redirect('recruiter_dashboard')
+                elif user.role == 'student':
+                    return redirect('student_dashboard')
+                elif user.role == 'admin':
+                    return redirect('admin_dashboard')
           else:
               messages.error(request, 'Username or Password is incorrect')
      elif request.method =="GET":
