@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .navbar { 
+        padding: 8px 16px; 
+        position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2; 
+    }
+    
+    .navbar-brand {
+        font-size: 18px; 
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 14px; 
+        /* margin-left: 8px; You can adjust the margin values to your preference */
+    }
+    
+    .navbar-toggler-icon {
+        font-size: 16px; 
+    }
+
+    .navbar-nav {
+    margin-left: auto;
+    }
+
+    .dropdown-item{
+        font-size: 14px; 
+    padding: 8px 16px; 
+    color: #333; 
+    text-decoration: none; 
+
+    }
+    .sidebar {
+            background-color: #f8f9fa;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            padding-top: 50px; /* Adjust top padding as needed */
+        }
+        .sidebar-nav-item {
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .sidebar-nav-item:last-child {
+            border-bottom: none; /* Remove bottom border from last item */
+        }
+        .sidebar-nav-item a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .sidebar-nav-item a:hover {
+            color: #007bff; /* Change color on hover */
+        }
+        .main-content {
+            margin-left: 200px; /* Adjust based on sidebar width */
+            padding: 20px;
+        }
+</style>
+<!-- Bootsrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<body>
+    {% include 'recruiters/recruiternav.html' %}
+<br>
+<br>
+        <!-- Main Content -->
+    <div class="main-content">
+        <!-- Your main content goes here -->
+        <h1>Welcome to Your Dashboard</h1>
+        <!-- Add more content as needed -->
+    </div>
+    <!-- Remove the container if you want to extend the Footer to full width. -->
+    {% include 'recruiters/footer.html' %}
+
+  <!-- End of .container -->
+              
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

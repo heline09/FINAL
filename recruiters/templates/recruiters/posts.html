@@ -1,6 +1,4 @@
-{% extends 'recruiters/base.html' %}
-
-{% include 'internconnect/navbar2.html' %}
+{% include 'recruiters/recruiternav.html' %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -10,28 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recruiter Posting</title>
 </head>
-<style>
-    .navbar { 
-        padding: 8px 16px; 
-    }
-    
-    .navbar-brand {
-        font-size: 18px; 
-    }
-    
-    .navbar-nav .nav-link {
-        font-size: 14px; 
-        /* margin-left: 8px; You can adjust the margin values to your preference */
-    }
-    
-    .navbar-toggler-icon {
-        font-size: 16px; 
-    }
-
-    .navbar-nav {
-    margin-left: auto;
-    }
-</style>
 <body>
     {% include 'accounts/messages.html' %}
     <div class="container">

@@ -8,20 +8,17 @@
 	<div class="collapse navbar-collapse" id="navbarNav">
 		<ul class="navbar-nav">
 		
-			{% if user.is_authenticated %}
+			<!-- {% if user.is_authenticated %}
 			<li class="nav-item">
 				{% comment %}<a class="nav-link" href="{% url 'profile' %}">{{user.username}}</a>{% endcomment %}
 				<a class="nav-link" href="#" style="color: lightblue;">{{user.username}}</a>
 			</li>
-			{% endif %}
+			{% endif %} -->
 			<li class="nav-item active">
 				<a class="nav-link" href="/">Home</a><span class="sr-only">(current)</span></a> <!--current page on -->
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'listings' %}">Jobs</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{% url 'listings' %}">Companies</a>
 			</li>
 			<div class="dropdown">
 				<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,0 +1,34 @@
+{% extends 'internconnect/main.html' %}
+{% load static %}
+
+{% block title %}Student Dashboard{% endblock title %}
+
+{% block styles %}
+{{block.super}}
+<style>
+    body {
+        background: white;
+    }
+</style>
+{% endblock styles %}
+
+
+{% block navbar %}
+{% include 'students/studentnav.html' %}
+{% endblock navbar %}
+
+
+{% block content %}
+<!-- Main Content -->
+<div class="main-content" style="margin-top: 84px;">
+    <!-- Your main content goes here -->
+    <h1>Welcome to Your Student Dashboard</h1>
+    {% include 'internconnect/content.html' %}
+    <!-- Add more content as needed -->
+</div>
+{% endblock content %}
+
+{% block footer %}
+<!-- Remove the container if you want to extend the Footer to full width. -->
+{% include 'recruiters/footer.html' %}
+{% endblock footer %}

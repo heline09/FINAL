@@ -1,13 +1,41 @@
-/* body{
-   background-image: url"{% static 'images/back.jpg' %}";
-   background-size: cover;
-   background-attachment: fixed;
+.navbar { 
+    padding: 8px 16px; 
+}
 
+.navbar-brand {
+    font-size: 18px; 
+}
 
-    
+.navbar-nav .nav-link {
+    font-size: 14px; 
+    /* margin-left: 8px; You can adjust the margin values to your preference */
+}
+
+.navbar-toggler-icon {
+    font-size: 16px; 
+}
+
+.navbar-nav {
+margin-left: auto;
+}
+
+.dropdown-item{
+    font-size: 14px; 
+padding: 8px 16px; 
+color: #333; 
+text-decoration: none; 
+
+}
+
+body{
+background-color: aliceblue;
+background-size: cover;
+background-attachment: fixed;
+height: 100vh;
+
 }
 h5{
-    font-size: large;
-    font-family: sans-serif;
-    color: palegoldenrod;
-} */
+font-size: large;
+font-family: sans-serif;
+color: palegoldenrod;
+}

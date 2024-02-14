@@ -1,0 +1,33 @@
+     .navbar { 
+        padding: 8px 16px; 
+        position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2; 
+    }
+    
+    .navbar-brand {
+        font-size: 18px; 
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 14px; 
+        /* margin-left: 8px; You can adjust the margin values to your preference */
+    }
+    
+    .navbar-toggler-icon {
+        font-size: 16px; 
+    }
+
+    .navbar-nav {
+    margin-left: auto;
+    }
+
+    .dropdown-item{
+        font-size: 14px; 
+    padding: 8px 16px; 
+    color: #333; 
+    text-decoration: none; 
+
+    }

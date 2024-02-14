@@ -3,6 +3,12 @@ from django.contrib import messages
 from django.http import HttpResponse
 from .forms import RecruiterForm
 from internconnect.models import Internship
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def recruiter_dashboard(request):
+    # Logic for recruiter dashboard
+    return render(request, 'recruiters/recruiter_dashboard.html')
 
 def posts(request): # logic for the posting tab
     if request.POST:

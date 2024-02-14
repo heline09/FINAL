@@ -1,0 +1,7 @@
+from django.urls import path, include
+from . import views
+
+
+urlpatterns = [
+    path('student_dash/', views.student_dashboard, name='student_dashboard'),
+]

@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('internconnect.urls')),
     path('accounts/', include('accounts.urls')),
-    path('recruiters/', include('recruiters.urls'),)
+    path('recruiters/', include('recruiters.urls')),
+    path('students/', include('students.urls')),
 ]
 
 if settings.DEBUG:

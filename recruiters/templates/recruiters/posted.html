@@ -1,6 +1,5 @@
-{% extends 'recruiters/base.html' %}
+{% include 'recruiters/recruiternav.html' %}
 
-{% include 'internconnect/navbar2.html' %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -11,33 +10,33 @@
     <title>Internships</title>
 </head>
 <body>
-
-<h2>Internships</h2>
-
-<table border="1">
+    <br><br><br>
+<h2 class="container">Posted</h2>
+<br>
+<table class="container p-3" border="1">
     <thead>
         <tr>
             <th>Title</th>
             <th>Company</th>
-            <th>Description</th>
+            <!-- <th>Description</th> -->
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Location</th>
-            <th>Requirements</th>
-            <th>Recruiter</th>
+            <!-- <th>Location</th> -->
+            <!-- <th>Requirements</th>
+            <th>Recruiter</th> -->
         </tr>
     </thead>
     <tbody>
         {% for internship in internships %}
-        <tr>
+        <tr class="p-2">
             <td>{{ internship.title }}</td>
             <td>{{ internship.company }}</td>
-            <td>{{ internship.description }}</td>
+            <!-- <td>{{ internship.description }}</td> -->
             <td>{{ internship.start_date }}</td>
             <td>{{ internship.end_date }}</td>
-            <td>{{ internship.location }}</td>
-            <td>{{ internship.requirements }}</td>
-            <td>{{ internship.recruiter.username }}</td>
+            <!-- <td>{{ internship.location }}</td> -->
+            <!-- <td>{{ internship.requirements }}</td> -->
+            <!-- <td>{{ internship.recruiter.username }}</td> -->
         </tr>
         {% endfor %}
     </tbody>

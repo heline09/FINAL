@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Internship
-from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
@@ -11,24 +10,20 @@ def listings(request):
 
     # setup pagination
    
+def render_content(request):             # this is the content I'm trying to render in the first app
+    internships = Internship.objects.all()
+    context = {'internships': internships}
+    print(context)
+    return render(request, 'internconnect/content.html', context)
+
 def home(request):
     return render(request, 'internconnect/dashboard.html')
-
-@login_required
-def recruiter_dashboard(request):
-    # Logic for recruiter dashboard
-    return render(request, 'internconnect/recruiter_dashboard.html')
-
-@login_required
-def student_dashboard(request):
-    # Logic for student dashboard
-    return render(request, 'internconnect/student_dashboard.html')
-
 
 def application(request):
      return render(request, 'internconnect/application.html')
 
-def details(request):
-     return render(request, 'internconnect/details.html')
+def details(request, internship_id):
+     internship = get_object_or_404(Internship, pk=internship_id)
+     return render(request, 'internconnect/details.html', {'internship':internship})
 
 # Create your views here.

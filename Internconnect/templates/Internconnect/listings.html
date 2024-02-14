@@ -1,170 +1,81 @@
 {% extends 'internconnect/main.html' %}
+{% load static %}
+
+{% block title %}Job Search Example{% endblock title %}
+
+
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
+{% endblock styles %}
+
 
 {% block content %}
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Search Example</title>
-    <!-- Add any necessary CSS or JavaScript files here -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
-</head>
-<body>
-<style>
-    /* Add some basic styling to the internship list */
-    body {
-  font-family: Arial, sans-serif;
-}
-
-.job-container {
-  display: grid;
-  grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
-  grid-gap: 1rem;
-  padding: 1rem;
-}
-
-.job-card {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-  padding: 1rem;
-  margin-right: 10rem;
-  margin-left: 10rem;
-  cursor: pointer; /* Added cursor pointer for interactivity */
-  transition: background-color 0.3s; /* Added transition for smooth color change */
-}
-
-.job-card:hover {
-  background-color: #e0e0e0; /* Color change on hover */
-}
-
-.job-card:active {
-  background-color: #d0d0d0; /* Color change when clicked */
-}
-
-.job-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.job-company {
-  font-size: 1rem;
-  color: #6c757d;
-  margin-bottom: 0.6rem;
-}
-
-.job-description {
-  font-size: 1rem;
-  margin-bottom: 0.6rem;
-}
-
-.job-apply {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.job-apply button {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-
-.job-apply button:hover {
-  background-color: #0056b3;
-}
-
-.search-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 3rem;
-  margin-left: 1rem;
-  margin-right: 3rem;
-  margin-bottom: 1rem;
-}
-
-.search-bar-container {
-  display: inline-block;
-  position: relative;
-  color: black;
-}
-
-.search-bar {
-  flex-grow: 1;
-  padding: 1.0rem;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-}
-
-.search-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-
-.search-button:hover {
-  background-color: #0056b3;
-}
-
-  
-</style>
-<!-- listings.html -->
 <div class="search-container">
-    <input type="text" id="search-input" class="search-bar" placeholder="Search internships...">
-    <button id="search-button" class="btn-outline-secondary">Search</button>
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchButton = document.getElementById('search-button');
-        const searchInput = document.getElementById('search-input');
-        const jobCards = document.querySelectorAll('.job-card');
-    
-        searchButton.addEventListener('click', function() {
-            const searchTerm = searchInput.value.toLowerCase();
-    
-            jobCards.forEach(function(card) {
-                const title = card.getAttribute('data-title').toLowerCase();
-                const company = card.getAttribute('data-company').toLowerCase();
-                const description = card.getAttribute('data-description').toLowerCase();
-    
-                if (title.includes(searchTerm) || company.includes(searchTerm) || description.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
+  <input type="text" id="search-input" class="search-bar" placeholder="Search internships...">
+  <button id="search-button" class="btn-outline-secondary">Search</button>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchButtonElement = document.getElementById('search-button');
+    const searchInputElement = document.getElementById('search-input');
+    const noInternshipsElement = document.getElementById('no-internships');
+
+    searchButtonElement.addEventListener('click', () => {
+      const searchTerm = searchInputElement.value.toLowerCase();
+      const internshipElements = document.getElementsByClassName('job-card');
+      let foundInternship = false; // Flag to track if any internship is found
+
+      for (let i = 0; i < internshipElements.length; i++) {
+        const internshipElement = internshipElements[i];
+        const titleElement = internshipElement.querySelector('.job-title');   // searches only by job title
+        const titleText = titleElement.textContent.toLowerCase();
+
+        const descriptionElement = internshipElement.querySelector('.job-description');
+        const descriptionText = descriptionElement.textContent.toLowerCase();
+
+        const companyElement = internshipElement.querySelector('.job-company');
+        const companyText = companyElement.textContent.toLowerCase();
+
+        if (titleText.includes(searchTerm) || descriptionText.includes(searchTerm) || companyText.includes(searchTerm)) {
+          internshipElement.style.display = 'block';
+          foundInternship = true; // Set flag to true if internship is found
+        } else {
+          internshipElement.style.display = 'none';
+        }
+      }
+
+      // Show or hide the "No internships found" message based on search result
+      if (foundInternship) {
+        noInternshipsElement.style.display = 'none'; // Hide the message
+      } else {
+        noInternshipsElement.style.display = 'block'; // Show the message
+      }
     });
-    </script>
+
+    // Add event listener to search input
+    searchInputElement.addEventListener('input', () => {
+      searchButtonElement.click();
+    });
+  });
+
+</script>
 <div id="internship-list" class="job-container">
-    {% for internship in internships %}
-        <div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
-            <h2 class="job-title">{{ internship.title }}</h2>
-            <p class="job-company">{{ internship.company }}</p>
-            <p class="job-description">{{ internship.description }}</p>
-            <div class="job-apply"></div>
-        </div>
-    {% endfor %}
+  {% for internship in internships %}
+  <a href="{% url 'details' internship.id %}"></a>
+  <div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
+    <h2 class="job-title">{{ internship.title }}</h2>
+    <p class="job-company">{{ internship.company }}</p>
+    <p class="job-description">{{ internship.description }}</p>
+    <div class="job-apply"></div>
+  </div>
+  </a>
+  {% endfor %}
 </div>
 
 <script>
-function openDetailsPage(internshipId) {
-    
+  function openDetailsPage(internshipId) {
     window.location.href = `/details/${internshipId}`;
-}
-
+  }
 </script>
-
-</body>
-</html>
-
-{% endblock %}
-
+{% endblock content %}

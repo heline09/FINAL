@@ -1,34 +1,74 @@
 {% extends 'internconnect/main.html' %}
 
+{% block title %}{{ internship.title }}{% endblock title %}
+
+{% block styles %}
+<style>
+    .button-container {
+        margin-top: 20px;
+        display: flex;
+        margin-left: 20px;
+    }
+
+    .apply-button,
+    .save-button {
+        display: inline-block;
+        margin-right: 20px;
+        /* Adjust the margin as needed */
+    }
+
+    .apply-button {
+        background-color: green;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+        font-weight: bold;
+    }
+
+    .save-button {
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+
+    .save-button span {
+        margin-right: 10px;
+    }
+
+    .description {
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+</style>
+{% endblock styles %}
+
+
 {% block content %}
+<div class="description">
+    <h1><strong>{{ internship.title }}</strong></h1>
+    <h2>{{ internship.company }}</h2>
+    <p><strong>Description:</strong> {{ internship.description }}</p>
+    <p><strong>Start Date:</strong> {{ internship.start_date }}</p>
+    <p><strong>End Date:</strong> {{ internship.end_date }}</p>
+    <p><strong>Location:</strong> {{ internship.location }}</p>
+    <p><strong>Requirements:</strong> {{ internship.requirements}}</p>
+</div>
+<!-- Button container -->
+<div class="button-container">
+    <!-- Apply button -->
+    <button class="apply-button">Apply</button>
 
-<p>Job Description</p>
-
-
-<!DOCTYPE html>
-<html>
-<body>
-<h2>Click the button to change the text</h2>
-
-<p id="demo">This is a demonstration.</p>
-
-<button onclick="request()">Click me</button>
-<div id ="result"></div>
-<!-- JS demo -->
-<script>
-function request(){
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-    .then(function(response){
-        return response.json()
-    })
-    .then((response) => {
-        console.log(response)
-        var result = document.getElementById('result')
-        result.innerHTML = response.userId
-    })
-}
-</script>
-
-</body>
-</html>
-{% endblock %} 
+    <!-- Save button with heart icon -->
+    <button class="save-button">
+        <span>&#x2665;</span> Save
+    </button>
+</div>
+{% endblock %}
