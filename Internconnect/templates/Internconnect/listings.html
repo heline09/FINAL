@@ -73,6 +73,8 @@
   {% endfor %}
 </div>
 
+{% include 'internconnect/pagination.html' %}
+
 <script>
   function openDetailsPage(internshipId) {
     window.location.href = `/details/${internshipId}`;

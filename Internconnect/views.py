@@ -4,9 +4,12 @@ from .models import Internship
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
+from .methods import handle_pagination
+
 def listings(request):
      internships = Internship.objects.all()  # Retrieve all internship objects
-     return render(request, 'internconnect/listings.html', {'internships': internships})
+     page = handle_pagination(request, internships, per_page=10)
+     return render(request, 'internconnect/listings.html', {'internships': page.object_list, "page": page})
 
     # setup pagination
    
