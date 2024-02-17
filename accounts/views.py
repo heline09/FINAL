@@ -4,10 +4,12 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from . forms import UserRegisterForm
+from .models import SubscriptionPlan, UserSubscription
 
 
 def registerPage(request):  
      form = UserRegisterForm()  
+     plans = SubscriptionPlan.objects.all()
      if request.method == "POST":
           form = UserRegisterForm(request.POST)
           if form.is_valid():
@@ -24,8 +26,21 @@ def registerPage(request):
           if request.user.is_authenticated:
                return redirect('/')
          
-     context = {'form': form}
+     context = {'form': form, 'plans': plans}
      return render(request, 'accounts/register.html', context)
+
+def subscription_plans(request):
+    plans = SubscriptionPlan.objects.all()
+    return render(request, 'accounts/subscription_plans.html', {'plans': plans})
+
+def choose_subscription(request, plan_id):
+    plan = SubscriptionPlan.objects.get(pk=plan_id)
+   
+    return redirect('/') # redirect to landing page
+
+def user_subscriptions(request):
+    user_subscriptions = UserSubscription.objects.filter(user=request.user)
+    return render(request, 'accounts/user_subscriptions.html', {'subscriptions': user_subscriptions})
 
 
 def loginPage(request):

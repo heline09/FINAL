@@ -1,6 +1,11 @@
 {% extends 'internconnect/main.html' %}
+{% load static %}
 
 {% block title %}{{ internship.title }}{% endblock title %}
+
+{% block navbar %}
+Another navbar
+{% endblock navbar %}
 
 {% block styles %}
 <style>
@@ -61,12 +66,9 @@
     <p><strong>Location:</strong> {{ internship.location }}</p>
     <p><strong>Requirements:</strong> {{ internship.requirements}}</p>
 </div>
-<!-- Button container -->
-<div class="button-container">
-    <!-- Apply button -->
-    <button class="apply-button">Apply</button>
 
-    <!-- Save button with heart icon -->
+<div class="button-container">
+    <button class="apply-button">Apply</button>
     <button class="save-button">
         <span>&#x2665;</span> Save
     </button>

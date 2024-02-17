@@ -3,7 +3,6 @@ from django.contrib import messages
 from .models import Internship
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-
 from .methods import handle_pagination
 
 def listings(request):
@@ -20,7 +19,7 @@ def render_content(request):             # this is the content I'm trying to ren
     return render(request, 'internconnect/content.html', context)
 
 def home(request):
-    return render(request, 'internconnect/dashboard.html')
+    return render(request, 'internconnect/landing.html')
 
 def application(request):
      return render(request, 'internconnect/application.html')

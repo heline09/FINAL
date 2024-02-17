@@ -1,0 +1,29 @@
+{% extends 'internconnect/main.html' %}
+{% load static %}
+{% block title %}User Subscription {% endblock title %}
+
+{% block styles %}
+{{block.super}}
+<style>
+    body {
+        background: white;
+    }
+</style>
+{% endblock styles %}
+
+{% block navbar %}
+Subscription Navbar
+{% endblock navbar %}
+
+
+{% block content %}
+
+<h2>Your Subscriptions</h2>
+<ul>
+{% for subscription in subscriptions %}
+    <li>
+        <strong>{{ subscription.plan.name }}</strong>: Expires on {{ subscription.end_date }}
+    </li>
+{% endfor %}
+</ul>
+{% endblock content %}

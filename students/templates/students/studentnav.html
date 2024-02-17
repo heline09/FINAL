@@ -13,8 +13,25 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">My Applications</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Notifications</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                    Notifications
+                </a>
+                <div class="dropdown-menu dropdown-menu-right notification-dropdown">
+                    {% if notification in notifications %}
+                    <ul class="list-group">
+                        {% for notification in notifications %}
+                        <li class="list-group-item list-group-item-action">
+                            <i class="fas fa-bell"></i>
+                            {{ notification.message }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted m-0">No new notifications.</p>
+                    {% endif %}
+                    <a class="dropdown-item dropdown-footer text-center" href="#">See all notifications</a>
+                </div>
             </li>
             <div class="dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'subscriptions',
     'internconnect',
     'accounts',
     'recruiters',
@@ -75,6 +76,30 @@ TEMPLATES = [
         },
     },
 ]
+
+# subscription related settings
+SUBSCRIPTION_PLANS = {
+    'basic': {
+        'cost': 15.00,  
+        'features': ['Feature 1', 'Feature 2', ...],
+        'active': True,  
+    },
+    'standard': {
+        'cost': 30.00, 
+        'features': ['Feature 1', 'Feature 2', ...],
+        'active': True,  # Optional: Set to False if not yet ready
+    },
+    'premium': {
+        'cost': 60.00,  
+        'features': ['Feature 1', 'Feature 2', ...],
+        'active': True,  
+    },
+    
+}
+# payment processor
+SUBSCRIPTION_PAYMENT_PROCESSOR = 'subscriptions.payment_processors.stripe'
+STRIPE_PUBLIC_KEY = 'your_stripe_public_key'
+STRIPE_SECRET_KEY = 'your_stripe_secret_key'
 
 WSGI_APPLICATION = 'FINAL.wsgi.application'
 

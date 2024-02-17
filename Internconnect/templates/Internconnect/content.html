@@ -1,3 +1,7 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
+
+
 <div id="internship-list" class="job-container">
 	{% for internship in internships %}
 	<div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
@@ -6,8 +10,8 @@
 		<p class="job-description">{{ internship.description }}</p>
 		<div class="job-apply"></div>
 	</div>
-	{{ internship }}
 	{% empty %}
 	<p>No internships found.</p>
 	{% endfor %}
 </div>
+{% include 'internconnect/pagination.html' %}
