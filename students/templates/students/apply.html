@@ -1,0 +1,36 @@
+{% extends 'internconnect/main.html' %}
+{% load static %}
+
+{% block title %}{{ internship.title }}{% endblock title %}
+
+{% block navbar %}
+Another navbar2
+{% endblock navbar %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block content %}
+<h1>Apply to the Internship</h1>
+    
+    <form action="#" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="profile">My Profile:</label><br>
+            <textarea id="profile" name="profile" rows="4" cols="50" placeholder="Enter your profile here"></textarea>
+        </div>
+        <br>
+        <div>
+            <label for="cv">My CV:</label><br>
+            <input type="file" id="cv" name="cv" accept=".pdf, .doc, .docx">
+        </div>
+        <br>
+        <div>
+            <label for="application_message">My Application Message:</label><br>
+            <textarea id="application_message" name="application_message" rows="4" cols="50" placeholder="Enter your application message here"></textarea>
+        </div>
+        <br>
+        <div>
+            <button type="submit">Submit Application</button>
+        </div>
+    </form>
+{% endblock content %}

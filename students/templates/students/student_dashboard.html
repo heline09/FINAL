@@ -23,8 +23,19 @@
 <div class="main-content" style="margin-top: 24px;">
     <!-- Your main content goes here -->
     <h1>Welcome to Your Student Dashboard</h1>
-    {% include 'internconnect/content.html' %}
-   
+    <div id="internship-list" class="job-container">
+        {% for internship in internships %}
+        <div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
+            <h2 class="job-title">{{ internship.title }}</h2>
+            <p class="job-company">{{ internship.company }}</p>
+            <p class="job-description">{{ internship.description }}</p>
+            <div class="job-apply"></div>
+        </div>
+        {% empty %}
+        <p>No internships found.</p>
+        {% endfor %}
+    </div>
+
     <!-- Add more content as needed -->
 </div>
 {% endblock content %}

@@ -1,27 +1,23 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django import forms
-from .models import SubscriptionPlan
+from .models import Student, Skill, FieldOfStudy
+from django.forms import ModelForm
 
 User = get_user_model()
 
 class UserRegisterForm(UserCreationForm):
-     subscription_plan = forms.ModelChoiceField(queryset=SubscriptionPlan.objects.all(), label='Select Subscription Plan')
 
      class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', 'role', 'subscription_plan']
+        fields = ['username', 'email', 'password1', 'password2', 'role']
 
-     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['role'].widget.attrs['onchange'] = 'showSubscriptionPlan()'
 
-def clean(self):
-    cleaned_data = super().clean()
-    role = cleaned_data.get('role')
-    subscription_plan = cleaned_data.get('subscription_plan')
+class StudentForm(ModelForm):
+     fields_of_study = forms.ModelChoiceField(queryset=FieldOfStudy.objects.all(), label='Select your field')
+     skill = forms.ModelMultipleChoiceField(queryset=Skill.objects.all(), widget=forms.CheckboxSelectMultiple, label='Select your skills')
 
-    if role == 'recruiter' and not subscription_plan:
-        raise forms.ValidationError("Recruiters must select a subscription plan")
+     class Meta:
+        model = Student
+        fields = ['fields_of_study', 'skill']
 
-    return cleaned_data

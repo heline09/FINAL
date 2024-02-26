@@ -111,13 +111,6 @@
                         </div>
                         {{form.role}}
                     </div>
-                    <div class="input-group mb-3" style="display: none;">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-list"></i></span>
-                        </div>
-                        {{ form.subscription_plan }}
-                        <a href="{% url 'subscription_plans' %}">View Subscription Plans</a>
-                    </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -137,85 +130,14 @@
                 </form>
 
             </div>
-
             <div class="mt-4">
                 <div class="d-flex justify-content-center links">
                     Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
                 </div>
 
             </div>
-            <!-- Modal HTML -->
-            <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="customModalLabel">Select Subscription Plan</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" id="modalBody">
-                            <!-- Content will be inserted here -->
-                            <div id="subscriptionPlanList" style="display: none;">
-                                <h2>Choose a Subscription Plan</h2>
-                                <ul>
-                                    {% for plan in plans %}
-                                    <li>
-                                        <strong>{{ plan.name }}</strong>: ${{ plan.price }} for {{ plan.duration }} days
-                                        <a href="{% url 'choose_subscription' plan.id %}">Select</a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
-    <script>
-        const form = document.getElementById('register-form'); // Ensure correct form ID
-        const roleField = document.getElementById('id_role'); // Ensure correct field ID
-        const submitButton = document.getElementById('submit-button');
-        const subscriptionPlanField = document.getElementById('subscription_plan_id'); // Get hidden field element
-
-        submitButton.addEventListener('click', (event) => {
-            const selectedRole = roleField.value;
-
-            if (selectedRole === 'recruiter') {
-                event.preventDefault();
-                showSubscriptionPlan();
-
-            } else {
-                // User selected a different role, allow form submission
-                form.submit();
-            }
-        });
-
-        function showSubscriptionPlan() {
-            if (typeof jQuery !== 'undefined') {
-                $('#customModal').modal('show');
-                document.getElementById('modalBody').innerHTML = document.getElementById('subscriptionPlanList').innerHTML;
-            } else {
-                // redirect
-                promptForPlanSelection();
-            }
-        }
-
-        function promptForPlanSelection() {
-            const selectedPlan = prompt('Please select a subscription plan:', '');
-
-            if (selectedPlan) {
-                subscriptionPlanField.value = selectedPlan;
-                form.submit();
-            } else {
-                // User canceled or didn't provide a plan
-                alert('Please select a subscription plan to proceed.');
-            }
-        }
-
-
-    </script>
+</div>
 {% endblock %}
- 

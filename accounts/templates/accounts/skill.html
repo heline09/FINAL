@@ -1,0 +1,64 @@
+{% extends 'internconnect/main.html' %}
+{% load static %}
+
+{% block title %}Select Skills{% endblock title %}
+
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
+{% endblock styles %}
+
+{% block content %}
+<form id="register-form" method="POST">
+  {% csrf_token %}
+  
+  <h1> Select Your Field of Study and Skills</h1>
+
+  <label for="fields_of_study">Field of Study:</label>
+  <select id="fields_of_study" name="select_field_of_study" required>
+    <option value="">Select Field of Study</option>
+    {% for field in fields_of_study %}
+    <option value="{{ field.id }}">{{ field.name }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <label for="skills">Skills (select multiple):</label>
+  <div id="skills">
+    {% for skill in skills %}
+    <input type="checkbox" id="skill_{{ skill.id }}" name="skills" value="{{ skill.id }}">
+    <label for="skill_{{ skill.id }}">{{ skill.name }}</label><br>
+    {% endfor %}
+  </div>
+
+  <button id="btn" type="submit">Save Skills</button>
+</form>
+{% endblock content %}
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+{% block scripts %}
+{{ select_options|json_script:"select_options" }}
+
+<script>
+  const select_options = JSON.parse(document.getElementById('select_options').textContent);
+  const selectField = document.getElementById("fields_of_study")
+  const selectSkills = document.getElementById("skills")
+
+  selectField.onchange = function (event) {
+    const field_id = event.target.value; // checks if the selected field ID is valid
+    if (field_id) {
+      const skills = select_options[field_id];
+
+      let _skill_options = "";
+      for (let i = 0; i < skills.length; i++) {
+        const skill = skills[i];
+
+        _skill_options += `
+        <input type="checkbox" id="skill_${skill.id}" name="skills" value="${skill.id}">
+        <label for="skill_${skill.id}">${skill.name}</label><br>`;
+      }
+
+      selectSkills.innerHTML = `${_skill_options}`
+    }
+  }
+</script>
+{% endblock scripts %}

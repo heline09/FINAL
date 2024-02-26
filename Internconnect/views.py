@@ -12,7 +12,7 @@ def listings(request):
 
     # setup pagination
    
-def render_content(request):             # this is the content I'm trying to render in the first app
+def render_content(request):            
     internships = Internship.objects.all()
     context = {'internships': internships}
     print(context)

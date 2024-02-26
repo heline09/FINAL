@@ -1,55 +1,123 @@
+{% extends 'internconnect/main.html' %}
+{% load static %}
+
+{% block title %}Post Internship{% endblock title %}
+
+{% block navbar %}
+{{block.super}}
 {% include 'recruiters/recruiternav.html' %}
+{% endblock navbar %}
+
+<!-- {% block styles %}
+{{block.super}}
+link posting template CSS 
+{% endblock styles %} -->
+
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recruiter Posting</title>
-</head>
-<body>
-    <div class="container">
-        <h1 class="mt-5">Job Posting Form</h1>
-        <form method="POST" action="{% url 'posts' %}"  enctype="multipart/form-data" class="mt-3">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="job_title">Job Title:</label>
+<div class="container">
+    <br>
+    <h1 class="mt-5">Job Posting Form</h1>
+    <form method="POST" id="post-form" action="{% url 'posts' %}" enctype="multipart/form-data" class="mt-3">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="job_title">Job Title:</label>
+        </div>
+        {{form.title}}
+        <div class="form-group">
+            <label for="company_name">Company Name:</label>
+        </div>
+        {{form.company}}
+        <div class="form-group">
+            <label for="job_description">Job Description:</label>
+        </div>
+        {{form.description}}
+        <div class="form-group">
+            <label for="start_date">Field of Study:</label>
+            <br>
+            <select id="fields_of_study" name="select_field_of_study" required>
+                <option value="">Select Field of Study</option>
+                {% for field in fields_of_study %}
+                <option value="{{ field.id }}">{{ field.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="skills">Skills (select multiple):</label>
+            <div id="skills">
+                {% for skill in skills %}
+                <input type="checkbox" id="skill_{{ skill.id }}" name="skills" value="{{ skill.id }}">
+                <label for="skill_{{ skill.id }}">{{ skill.name }}</label><br>
+                {% endfor %}
             </div>
-              {{form.title}}
-            <div class="form-group">
-                <label for="company_name">Company Name:</label>
-            </div>
-            {{form.company}}
-            <div class="form-group">
-                <label for="job_description">Job Description:</label>
-            </div>
-            {{form.description}}
-            <div class="form-group">
-                <label for="start_date">Start Date:</label>
-            </div>
-            {{form.start_date}}
-            <div class="form-group">
-                <label for="end_date">End Date:</label>
-            </div>
-            {{form.end_date}}
-            <div class="form-group">
-                <label for="job_location">Job Location:</label>
-            </div>
-            {{form.location}}
-            <div class="form-group">
-                <label for="requirements">Requirements:</label>
-            </div>
-            {{form.requirements}}
-            <!-- Additional fields can be added as needed -->
-             <br>
-             <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
-        </form>
-    </div>
-    
-    {% endblock %}
-</body>
-</html>
+        </div>
+        <div class="form-group">
+            <label for="start_date">Start Date:</label>
+        </div>
+        {{form.start_date}}
+        <div class="form-group">
+            <label for="end_date">End Date:</label>
+        </div>
+        {{form.end_date}}
+        <div class="form-group">
+            <label for="end_date">Post Date:</label>
+        </div>
+        {{form.post_date}}
+        <div class="form-group">
+            <label for="end_date">Expiry Date:</label>
+        </div>
+        {{form.expiry_date}}
+        <div class="form-group">
+            <label for="job_location">Job Location:</label>
+        </div>
+        {{form.location}}
+        <div class="form-group">
+            <label for="requirements">Requirements:</label>
+        </div>
+        {{form.requirements}}
+        <!-- Additional fields can be added as needed -->
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
+    </form>
+</div>
 
+{% endblock %}
+
+{% block scripts %}
+{{ select_options|json_script:"select_options" }}
+
+<script>
+    const select_options = JSON.parse(document.getElementById('select_options').textContent);
+    const selectField = document.getElementById("fields_of_study")
+    const selectSkills = document.getElementById("skills")
+
+    selectField.onchange = function (event) {
+        const field_id = event.target.value; // checks if the selected field ID is valid
+        if (field_id) {
+            const skills = select_options[field_id];
+
+            let _skill_options = "";
+            for (let i = 0; i < skills.length; i++) {
+                const skill = skills[i];
+
+                _skill_options += ` 
+                <input type="checkbox" id="skill_${skill.id}" name="skills" value="${skill.id}">
+               <label for="skill_${skill.id}">${skill.name}</label><br>`;
+            }
+
+            selectSkills.innerHTML = `
+            <div id="skills">
+          ${_skill_options}
+        </div>
+          `
+        }
+    }
+
+    function clearForm() {
+        document.getElementById('post-form').reset();
+    }
+</script>
+{% endblock scripts %}

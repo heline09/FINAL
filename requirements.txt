@@ -5,3 +5,22 @@ pillow==10.2.0
 sqlparse==0.4.4
 tzdata==2023.4
 djangorestframework==3.14.0
+# latest pip freeze
+asgiref==3.7.2
+certifi==2023.7.22
+charset-normalizer==3.3.2
+distlib==0.3.7
+Django==4.2.5
+django-flexible-subscriptions==0.15.1
+django-jazzmin==2.6.0
+filelock==3.12.4
+idna==3.6
+mysqlclient==2.2.1
+pillow==10.2.0
+pipenv==2023.9.8
+platformdirs==3.10.0
+requests==2.31.0
+sqlparse==0.4.4
+tzdata==2023.3
+urllib3==2.2.1
+virtualenv==20.24.5
