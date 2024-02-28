@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from . forms import UserRegisterForm, StudentForm
 from .models import SubscriptionPlan, UserSubscription, Student, Skill, FieldOfStudy
 from internconnect.models import  SelectedSkill, Internship
+from django.contrib.auth.decorators import login_required
 
 
 # def registerPage(request):  
@@ -28,8 +29,9 @@ from internconnect.models import  SelectedSkill, Internship
          
 #      context = {'form': form}
 #      return render(request, 'accounts/register.html', context)
-def registerPage(request):
 
+
+def registerPage(request):
     form = UserRegisterForm()
 
     if request.method == "POST":
@@ -38,6 +40,14 @@ def registerPage(request):
             user = form.save()
             # Get the selected role from the form or another source
             selected_role = form.cleaned_data.get('role')  # Example
+
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+
             if selected_role == "student":
                 return redirect('skills')
             elif selected_role == "recruiter":
@@ -47,8 +57,10 @@ def registerPage(request):
                 messages.error(request, "Invalid role selected.")
                 return redirect('register')  # Redirect back to registration form
         else:
+            print("Form not valid")
             # Handle form validation errors
             for field, errors in form.errors.items():
+                print(errors)
                 for error in errors:
                     err_msg = error.capitalize()
                     messages.error(request, err_msg)
@@ -60,47 +72,37 @@ def registerPage(request):
     context = {'form': form}
     return render(request, 'accounts/register.html', context)
 
+@login_required
 def skillPage(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            selected_field_of_study_id = request.POST.get("select_field_of_study")
-            skills = request.POST.getlist("skills")
-            internships = Internship.objects.all()
-
-            internships = []
-            for internship in internships:
-                required_skills = internship.skills.all()
-                if all(skill_id in skills for skill_id in required_skills):
-                    matches.append(internship)
-                    
-            # Save selected skills for the user
-            if skills:
-                for skill_id in skills:
-                    request.user.skills.add(Skill.objects.get(id=skill_id))
-
-            # Render internships on student dashboard
-            return render(request, 'students/student_dashboard.html', {'internships': internships})
-        else:
-            select_options = {}
-            for field in FieldOfStudy.objects.all():
-                skills = [{'id': skill.id, 'name': skill.name} for skill in field.skills.all()]
-                select_options[field.id] = skills    
-
-            selected_field_of_study_id = request.POST.get("select_field_of_study")
-            if selected_field_of_study_id:
-                skills = Skill.objects.filter(fields_of_study_id=selected_field_of_study_id)
-            else:
-                skills = Skill.objects.all()
-
-            context = {
-                'fields_of_study': FieldOfStudy.objects.all(),
-                'select_options': select_options,
-                'skills': skills
-            }
-
-            return render(request, 'accounts/skill.html', context)  
+    if request.method == "POST":
+        selected_field_of_study_id = request.POST.get("select_field_of_study")
+        selected_skills = request.POST.getlist("skills")
+        
+        for skill_id in selected_skills:
+            skill = Skill.objects.get(id=skill_id)
+            request.user.skills.add(skill) # Save selected skills for the user
+        
+        # Render internships on student dashboard
+        return redirect('student_dashboard')
     else:
-        return redirect('register')
+        select_options = {}
+        for field in FieldOfStudy.objects.all():
+            skills = [{'id': skill.id, 'name': skill.name} for skill in field.skills.all()]
+            select_options[field.id] = skills    
+
+        selected_field_of_study_id = request.POST.get("select_field_of_study")
+        if selected_field_of_study_id:
+            skills = Skill.objects.filter(fields_of_study_id=selected_field_of_study_id)
+        else:
+            skills = Skill.objects.all()
+
+        context = {
+            'fields_of_study': FieldOfStudy.objects.all(),
+            'select_options': select_options,
+            'skills': skills
+        }
+
+        return render(request, 'accounts/skill.html', context)  
 
        
        

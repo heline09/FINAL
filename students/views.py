@@ -10,22 +10,23 @@ import requests
 
 @login_required
 def student_dashboard(request):
-    if request.user.is_authenticated:
-       student_skills = request.user.skills.all()
-       internships = []
-       for skill in student_skills:
-         internships.extend(skill.internships.all())
-       context = {
-        'internships': set(internships),
-    }
-       print(internships)
-       return render(request, 'students/student_dashboard.html', context)
+    student_skills = request.user.skills.all()
+    internships = []
+    for skill in student_skills:
+        for internship in skill.internships.all():
+            if internship not in internships: # to avoid repetition
+                internships.append(internship)
 
-    else:
-        return redirect('signin')
+    context = {
+        'internships': internships,
+    }
+
+    return render(request, 'students/student_dashboard.html', context)
+
 
 def applyPage(request):
     return render(request, 'students/apply.html')
+
 
 # if request.method == "POST":
 #         selected_field_of_study_id = request.POST.get("select_field_of_study")
