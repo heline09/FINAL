@@ -12,12 +12,6 @@ def listings(request):
 
     # setup pagination
    
-def render_content(request):            
-    internships = Internship.objects.all()
-    context = {'internships': internships}
-    print(context)
-    return render(request, 'internconnect/content.html', context)
-
 def home(request):
     return render(request, 'internconnect/landing.html')
 

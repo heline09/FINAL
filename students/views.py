@@ -4,8 +4,12 @@ from django.contrib import messages
 from django.http import HttpResponse
 from internconnect.models import Internship
 from accounts.models import Student, Skill
+from internconnect.models import Notification
+from .models import Application
 from django.contrib.auth.decorators import login_required
 import requests
+from .forms import ApplicationForm
+from django.shortcuts import get_object_or_404
 
 
 @login_required
@@ -24,20 +28,37 @@ def student_dashboard(request):
     return render(request, 'students/student_dashboard.html', context)
 
 
-def applyPage(request):
-    return render(request, 'students/apply.html')
+def applyPage(request, internship_id):
+    internship = get_object_or_404(Internship, pk=internship_id)
+
+    if request.method =='POST':
+        form = ApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            application = form.save(commit=False)
+            cv_file = form.cleaned_data['cv']
+            # internship_id = form.cleaned_data['internship_id']
+            cover_letter = request.POST.get('application_message')
+            application.internship = internship  # Assign the selected internship to the application
+            application.applicant = request.user
+            application.status = 'pending'
+            application.save()   
+            messages.success(request, 'Your application is submitted successfully!')        
+            
+            Notification.objects.create(
+            recipient=request.user,
+            message="Your application has been submitted."
+            )
+            
+            Notification.objects.create(
+            recipient=internship.recruiter,
+            message="You have received an application."
+            )
+            
+            return redirect('student_dashboard')
+        else:
+            print("Form not valid")
+    else:
+        form = ApplicationForm()
+        return render(request, 'students/apply.html', {'form':form})
 
 
-# if request.method == "POST":
-#         selected_field_of_study_id = request.POST.get("select_field_of_study")
-#         skills = request.POST.get("skills")
-#         print(f"{skills=}")
-#         if skills is an array/list:
-#             for skill_id in skills:
-#         request.user.skills.add(Skill.objects.get(id=skill_id))
-
-#         if skills is a single item/string:
-#             skill_id = skills
-#         request.user.skills.add(Skill.objects.get(id=skill_id))
-
-#         return redirect('student_dashboard')

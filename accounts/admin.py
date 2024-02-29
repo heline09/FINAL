@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, UserProfile, UserSubscription, SubscriptionPlan, FieldOfStudy, Skill, Student, Payment
+from .models import CustomUser, UserProfile, UserSubscription, SubscriptionPlan, FieldOfStudy, Skill, Student
 
 
 # Register your models here.
@@ -9,11 +9,10 @@ admin.site.register(UserProfile)
 admin.site.register(FieldOfStudy)
 # admin.site.register(Skill)
 admin.site.register(Student)
-admin.site.register(Payment)
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'role']
+    list_display = ['id', 'username', 'role']
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):

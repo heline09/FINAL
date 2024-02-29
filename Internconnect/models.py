@@ -13,8 +13,8 @@ class Internship(models.Model):
     location = models. CharField(max_length=50)
     requirements = models.TextField()
     recruiter = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="internships")
-    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank= True,  related_name='notifications')
     skills = models.ManyToManyField(Skill, related_name='internships')
+    
 
     def __str__ (self):
         return self.title
@@ -27,6 +27,7 @@ class SelectedSkill(models.Model):
         return self.user.username
 
 class Notification(models.Model):
+    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name='notifications')
     message = models.TextField()
 
 

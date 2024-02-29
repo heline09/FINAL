@@ -7,29 +7,9 @@ from . forms import UserRegisterForm, StudentForm
 from .models import SubscriptionPlan, UserSubscription, Student, Skill, FieldOfStudy
 from internconnect.models import  SelectedSkill, Internship
 from django.contrib.auth.decorators import login_required
-
-
-# def registerPage(request):  
-#      form = UserRegisterForm()  
-#      if request.method == "POST":
-#           form = UserRegisterForm(request.POST)
-#           if form.is_valid():
-#                CustomUser = form.save()
-#                username = form.cleaned_data.get('username')
-#                messages.success(request, f'Account created successfully for {username}, you can now login') 
-#                return redirect('skill')    
-#           else: 
-#                for field, errors in form.errors.items():
-#                     for error in errors:
-#                          err_msg = error.capitalize()
-#                          messages.error(request, err_msg)       
-#      elif request.method == "GET":
-#           if request.user.is_authenticated:
-#                return redirect('/')
-         
-#      context = {'form': form}
-#      return render(request, 'accounts/register.html', context)
-
+from django.urls import reverse
+from django.utils import timezone
+from datetime import timedelta
 
 def registerPage(request):
     form = UserRegisterForm()
@@ -51,7 +31,7 @@ def registerPage(request):
             if selected_role == "student":
                 return redirect('skills')
             elif selected_role == "recruiter":
-                return redirect('subscription_plans')
+                return redirect('subscribePage')
             else:
                 # Handle invalid role selection
                 messages.error(request, "Invalid role selected.")
@@ -102,21 +82,15 @@ def skillPage(request):
             'skills': skills
         }
 
-        return render(request, 'accounts/skill.html', context)  
+        return render(request, 'students/skill.html', context)  
 
-       
-       
-          
-
-def subscription_plans(request):
+@login_required     
+def subscribePage(request):
     plans = SubscriptionPlan.objects.all()
-    return render(request, 'accounts/subscription_plans.html', {'plans': plans})
-
-def choose_subscription(request, plan_id):
-    plan = SubscriptionPlan.objects.get(pk=plan_id)
+    return render(request, 'accounts/subscription.html',{'plans': plans})     
+                  
+          
    
-    return redirect('/') # redirect to landing page
-
 def user_subscriptions(request):
     user_subscriptions = UserSubscription.objects.filter(user=request.user)
     return render(request, 'accounts/user_subscriptions.html', {'subscriptions': user_subscriptions})

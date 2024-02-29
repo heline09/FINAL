@@ -4,29 +4,33 @@
 {% block title %}{{ internship.title }}{% endblock title %}
 
 {% block navbar %}
-Another navbar2
+{% include 'students/studentnav.html' %}
 {% endblock navbar %}
 
 {% block styles %}
+<style>
+      #apply-form{
+        margin-left: 0.34in;
+        margin-top: 0.24in;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
 {% endblock styles %}
 
 {% block content %}
 <h1>Apply to the Internship</h1>
     
-    <form action="#" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="profile">My Profile:</label><br>
-            <textarea id="profile" name="profile" rows="4" cols="50" placeholder="Enter your profile here"></textarea>
-        </div>
-        <br>
+    <form action="#" id ="apply-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
         <div>
             <label for="cv">My CV:</label><br>
-            <input type="file" id="cv" name="cv" accept=".pdf, .doc, .docx">
+            {{form.cv}}
         </div>
         <br>
         <div>
             <label for="application_message">My Application Message:</label><br>
-            <textarea id="application_message" name="application_message" rows="4" cols="50" placeholder="Enter your application message here"></textarea>
+           {{form.application_message}}
         </div>
         <br>
         <div>
