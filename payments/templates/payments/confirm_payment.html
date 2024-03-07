@@ -1,0 +1,21 @@
+ {% extends 'internconnect/main.html %}
+ {% load static %}
+ <div class="row mt-3">
+                <div class="col-md-12">
+                    <p>Have you paid?</p>
+                    <button onclick="redirectToConfirmationPage('yes')" class="btn btn-success">Yes</button> 
+                    <button onclick="redirectToConfirmationPage('no')" class="btn btn-danger">No</button>
+                </div>
+        </div> 
+
+<!-- <script>
+    function redirectToConfirmationPage(answer) {
+        if (answer === 'yes') {
+            // Redirect to subscription confirmation page
+            window.location.href = `/subscription_confirmation/${subscriptionId}/${planId}`;
+        } else {
+            // Handle if the user hasn't paid yet
+            alert("Please complete the payment first.");
+        }
+    }
+</script> -->

@@ -1,6 +1,6 @@
 /* Basic styling for the internship list */
-    body {
-  font-family: Arial, sans-serif;
+    *{
+  font-family: sans-serif;
 }
 
 .job-container {
@@ -13,7 +13,7 @@
 .job-card {
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
+  border-radius: 2rem;
   padding: 1rem;
   margin-right: 10rem;
   margin-left: 10rem;

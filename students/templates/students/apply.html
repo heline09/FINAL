@@ -1,28 +1,24 @@
 {% extends 'internconnect/main.html' %}
 {% load static %}
 
-{% block title %}{{ internship.title }}{% endblock title %}
+{% block title %}Apply Page{% endblock title %}
 
 {% block navbar %}
 {% include 'students/studentnav.html' %}
 {% endblock navbar %}
 
 {% block styles %}
-<style>
-      #apply-form{
-        margin-left: 0.34in;
-        margin-top: 0.24in;
-    }
-</style>
 <link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
+<link rel="stylesheet" type="text/css" href="{% static 'css/apply.css' %}" media="screen">
 {% endblock styles %}
 
 {% block content %}
-<h1>Apply to the Internship</h1>
-    
-    <form action="#" id ="apply-form" method="POST" enctype="multipart/form-data">
+<br><br><br>
+<div id="apply-form-container">
+    <h1>Apply to the Internship</h1>
+    <form action="#" id="apply-form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        
+
         <div>
             <label for="cv">My CV:</label><br>
             {{form.cv}}
@@ -30,11 +26,12 @@
         <br>
         <div>
             <label for="application_message">My Application Message:</label><br>
-           {{form.application_message}}
+            {{form.application_message}}
         </div>
         <br>
         <div>
             <button type="submit">Submit Application</button>
         </div>
-    </form>
+</div>
+</form>
 {% endblock content %}

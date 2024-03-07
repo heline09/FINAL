@@ -25,6 +25,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD ="username"
     EMAIL_FIELD = "email"
     REQUIRED_FIELDS =["email"]
+    
 
 class UserSubscription(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True, related_name="subscribed")
@@ -46,19 +47,30 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
-class UserProfile(models.Model):
+class StudentProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     image = models.ImageField(default = 'default.jpg', upload_to='profile_pics')
-   
-
+    skills = models.ManyToManyField(Skill)
+    cv = models.FileField(upload_to='cvs', blank=True)
+    
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
-
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender, instance, created, **kwargs):
-    if created: # once user is created, create profile for user
-        UserProfile.objects.create(user=instance)
+    if created:
+        if instance.role=="student":
+            StudentProfile.objects.create(user=instance)
+        elif instance.role=="recruiter":
+            RecruiterProfile.objects.create(user=instance)
+    
+class RecruiterProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    image = models.ImageField(default = 'default.jpg', upload_to='profile_pics')
+    company_name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
 
 
 class Student(models.Model):

@@ -1,7 +1,7 @@
 {% extends 'internconnect/main.html' %}
 {% load static %}
 
-{% block title %}Recruiter Dashboard{% endblock title %}
+{% block title %}Applicant List{% endblock title %}
 
 {% block navbar %}
 {% include 'recruiters/recruiternav.html' %}
@@ -81,31 +81,36 @@
         padding: 20px;
     }
 </style>
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/jobcard.css' %}" media="screen"> -->
 <link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
-<link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 {% endblock styles %}
 
 
 {% block content %}
-{% include 'accounts/messages.html' %}
+<div class="applicant-list">
+<h2 style="margin-left: 20px;">Applicants for {{internship.title}}</h2>
 <br>
-<br>
-<!-- Main Content -->
-<div class="main-content">
-    <!-- Your main content goes here -->
-    <h1>Welcome {{user.username}} Your Dashboard</h1>
-    </div>
-<div id="internship-list" class="job-container">
-    <!-- Render job cards here -->
-    {% for internship in internships %}
-    <a href="{% url 'applicant_list' internship.id %}" style="color:grey; text-decoration: none;">
-    <div class="job-card">
-        <h2 class="job-title">{{ internship.title }}</h2>
-        <p class="job-company">{{ internship.company }}</p>
-        <p class="job-description">{{ internship.description }}</p>
-    </div>
-    </a>
-    {% endfor %}
+<table class="table table-striped table-bordered" style="margin-left: 20px;">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Skills</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for application in applications %}
+        <tr class="applicant">
+            <td>{{ application.applicant.username }}</td>
+            <td>{{ application.applicant.email }}</td>
+            <td>{{ application.applicant.skills }}</td>
+            <td>
+                <a href="{% url 'applicant_details' application.id %}">View Details</a> 
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 </div>
+
 {% endblock content %}

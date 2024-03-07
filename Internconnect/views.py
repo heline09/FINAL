@@ -15,8 +15,6 @@ def listings(request):
 def home(request):
     return render(request, 'internconnect/landing.html')
 
-def application(request):
-     return render(request, 'internconnect/application.html')
 
 def details(request, internship_id):
      internship = get_object_or_404(Internship, pk=internship_id)

@@ -9,8 +9,13 @@
     body {
         background: white;
     }
+
+    .welcome-message {
+        text-align: center;
+    }
 </style>
 <link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
+
 {% endblock styles %}
 
 
@@ -25,7 +30,12 @@
 <!-- Main Content -->
 <div class="main-content" style="margin-top: 24px;">
     <!-- Your main content goes here -->
-    <h1>Welcome {{user.username}} to Your Student Dashboard</h1>
+    <h1 class="welcome-message">Welcome {{user.username}} to Your Student Dashboard</h1>
+    <!-- Add searchbar here -->
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-bar" placeholder="Search internships...">
+        <button id="search-button" class="btn-outline-secondary">Search</button>
+    </div>
     <div id="internship-list" class="job-container">
         {% for internship in internships %}
         <div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
@@ -40,12 +50,14 @@
     </div>
     <!-- Add more content as needed -->
 </div>
-
+{% block scripts %}
 <script>
     function openDetailsPage(internshipId) {
         window.location.href = `/details/${internshipId}`;
     }
 </script>
+ <script src="{% static 'js/script.js' %}"></script>
+{% endblock scripts %}
 {% endblock content %}
 
 

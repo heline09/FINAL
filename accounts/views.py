@@ -5,11 +5,13 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from . forms import UserRegisterForm, StudentForm
 from .models import SubscriptionPlan, UserSubscription, Student, Skill, FieldOfStudy
-from internconnect.models import  SelectedSkill, Internship
+from internconnect.models import Internship
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
+from .models import StudentProfile, RecruiterProfile
+
 
 def registerPage(request):
     form = UserRegisterForm()
@@ -88,8 +90,7 @@ def skillPage(request):
 def subscribePage(request):
     plans = SubscriptionPlan.objects.all()
     return render(request, 'accounts/subscription.html',{'plans': plans})     
-                  
-          
+                            
    
 def user_subscriptions(request):
     user_subscriptions = UserSubscription.objects.filter(user=request.user)
@@ -125,6 +126,14 @@ def logoutUser(request):
      logout(request)
      return redirect('/')
 
+
+def student_profile(request, user_id):
+    student_profile = StudentProfile.objects.get(user_id=user_id)
+    return render(request, 'accounts/student_profile.html', {'student_profile': student_profile})
+
+def recruiter_profile(request, user_id):
+    recruiter_profile = RecruiterProfile.objects.get(user_id=user_id)
+    return render(request, 'accounts/recruiter_profile.html', {'recruiter_profile': recruiter_profile})
 
 
 

@@ -4,13 +4,17 @@ from django.http import HttpResponse
 from .forms import RecruiterForm
 from internconnect.models import Internship,Notification
 from accounts.models import Skill, FieldOfStudy
+from students.models import Application
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+
 
 
 @login_required
 def recruiter_dashboard(request):
+    internships = Internship.objects.filter(recruiter=request.user, candidates__isnull=False)
     notifications = Notification.objects.filter(recipient=request.user) 
-    context ={'notifications': notifications}
+    context ={'notifications': notifications, 'internships':internships}
     print(context)
     return render(request, 'recruiters/recruiter_dashboard.html', context)
 
@@ -56,6 +60,23 @@ def posts(request):
 
 
 def posted(request):
-    internships = Internship.objects.all() 
+    internships = Internship.objects.filter(recruiter=request.user) 
     return render(request, 'recruiters/posted.html', {'internships': internships}) 
-# Create your views here.
+
+def applicant_list(request, internship_id):
+    internship = get_object_or_404(Internship, pk=internship_id)
+    applications = Application.objects.filter(internship=internship)
+    return render(request, 'recruiters/applicant_list.html', {'internship': internship, 'applications': applications})
+
+def applicant_details(request, application_id):
+    application = get_object_or_404(Application, id=application_id)
+    if request.method=='POST':
+        if 'accept' in request.POST:
+            application.status = 'Accepted'
+            application.save()
+        elif 'denied' in request.POST:
+            application.status = 'Denied'
+            application.save()
+        return redirect('applicant_details') # return to applicant details page after responding to the applications
+            
+    return render(request, 'students/applicant_details.html', {'application':application})

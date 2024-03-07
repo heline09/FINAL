@@ -1,7 +1,8 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <img src="{% static 'images/org(3).png' %}" alt="">
-    <span class ="navbar-brand" style="font-family: Arial, sans-serif; font-weight: bold; font-size: 24px; color: #d7edf049;">InternConnect</span>
+    <span class="navbar-brand"
+        style="font-family: Arial, sans-serif; font-weight: bold; font-size: 24px; color: #d7edf049;">InternConnect</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -12,35 +13,32 @@
                 <a class="nav-link" href="/students/student_dash/">Home</a> <!--current page on -->
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">My Applications</a>
+                <a class="nav-link" href="/students/applications">My Applications</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    Notifications
+            <li class="nav-item dropdown dropstart">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Notifications {% if notifications_count > 0 %}<span class="badge bg-danger">{{ notifications_count }}</span>{% endif %}
                 </a>
-                <div class="dropdown-menu dropdown-menu-right notification-dropdown">
-                    {% if notification in notifications %}
-                    <ul class="list-group">
-                        {% for notification in notifications %}
-                        <li class="list-group-item list-group-item-action">
-                            <i class="fas fa-bell"></i>
-                            {{ notification.message }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    {% for notification in notifications %}
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-bell"></i>
+                        {{ notification.message }}
+                    </a>
+                    {% empty %}
                     <p class="text-muted m-0">No new notifications.</p>
-                    {% endif %}
-                    <a class="dropdown-item dropdown-footer text-center" href="#">See all notifications</a>
+                    {% endfor %}
                 </div>
             </li>
+            
             <div class="dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     {{user.username}}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'student_profile' user.id%}">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     {% if user.is_authenticated %}
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>

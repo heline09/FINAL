@@ -8,6 +8,7 @@ urlpatterns = [
     path('skills/', views.skillPage, name="skills"),
     path('logout/',views.logoutUser, name="logout"),
     path('subscribe/', views.subscribePage, name = "subscribePage"),
-    # path('subscription/choose/<int:plan_id>/', views.choose_subscription, name="choose_subscription"),
     path('subscription/user/', views.user_subscriptions, name="user_subscriptions"),
+    path('profile/student/<int:user_id>/', views.student_profile, name='student_profile'),
+    path('profile/recruiter/<int:user_id>/', views.recruiter_profile, name='recruiter_profile'),
 ]

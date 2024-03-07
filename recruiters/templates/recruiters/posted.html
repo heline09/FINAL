@@ -1,48 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'internconnect/main.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internships</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-</head>
+{% block title %}Posted Internship{% endblock title %}
 
-<body>
-    {% include 'recruiters/recruiternav.html' %}
-    <br><br><br>
-    <h2 class="container">Posted</h2>
-    <br>
-    <!-- <table class="container p-3" style="border: 1px solid black;"> -->
-    <table class="table container">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Company</th>
-                <!-- <th>Description</th> -->
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <!-- <th>Location</th> -->
-                <!-- <th>Requirements</th>
+{% block navbar %}
+{% include 'recruiters/recruiternav.html' %}
+{% endblock navbar %}
+
+{% block content %}
+<h2 class="container">Posted</h2>
+<br>
+<!-- <table class="container p-3" style="border: 1px solid black;"> -->
+<table class="table container">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Company</th>
+            <!-- <th>Description</th> -->
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <!-- <th>Location</th> -->
+            <!-- <th>Requirements</th>
                 <th>Recruiter</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for internship in internships %}
-            <tr>
-                <td>{{ internship.title }}</td>
-                <td>{{ internship.company }}</td>
-                <!-- <td>{{ internship.description }}</td> -->
-                <td>{{ internship.start_date }}</td>
-                <td>{{ internship.end_date }}</td>
-                <!-- <td>{{ internship.skills }}</td> -->
-                <!-- <td>{{ internship.requirements }}</td> -->
-                <!-- <td>{{ internship.recruiter.username }}</td> -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+        </tr>
+    </thead>
+    <tbody>
+        {% for internship in internships %}
+        <tr>
+            <td>{{ internship.title }}</td>
+            <td>{{ internship.company }}</td>
+            <!-- <td>{{ internship.description }}</td> -->
+            <td>{{ internship.start_date }}</td>
+            <td>{{ internship.end_date }}</td>
+            <!-- <td>{{ internship.skills }}</td> -->
+            <!-- <td>{{ internship.requirements }}</td> -->
+            <!-- <td>{{ internship.recruiter.username }}</td> -->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-</html>
+{% endblock %}

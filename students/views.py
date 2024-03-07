@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse
 from internconnect.models import Internship
-from accounts.models import Student, Skill
+from accounts.models import Student, Skill, CustomUser
 from internconnect.models import Notification
 from .models import Application
 from django.contrib.auth.decorators import login_required
@@ -32,6 +32,10 @@ def applyPage(request, internship_id):
     internship = get_object_or_404(Internship, pk=internship_id)
 
     if request.method =='POST':
+        print(internship.candidates.all())
+        if request.user in internship.candidates.all():
+            messages.error(request,'You have an existing application')
+            return redirect('MyApplications')
         form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             application = form.save(commit=False)
@@ -42,6 +46,8 @@ def applyPage(request, internship_id):
             application.applicant = request.user
             application.status = 'pending'
             application.save()   
+            internship.candidates.add(request.user)
+            internship.save()
             messages.success(request, 'Your application is submitted successfully!')        
             
             Notification.objects.create(
@@ -54,11 +60,17 @@ def applyPage(request, internship_id):
             message="You have received an application."
             )
             
-            return redirect('student_dashboard')
+            return redirect('MyApplications')
         else:
             print("Form not valid")
     else:
         form = ApplicationForm()
-        return render(request, 'students/apply.html', {'form':form})
+    return render(request, 'students/apply.html', {'form':form})
+
+def MyApplications(request):
+    applications = Application.objects.filter(applicant=request.user)
+    return render(request, 'students/application.html', {'applications':applications})
+
+
 
 
