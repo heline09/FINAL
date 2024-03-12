@@ -8,5 +8,5 @@ admin.site.register(Notification)
 
 @admin.register(Internship)
 class InternshipAdmin(admin.ModelAdmin):
-    list_display = ['title', 'recruiter_id']
+    list_display = ['id', 'title', 'recruiter_id']
 

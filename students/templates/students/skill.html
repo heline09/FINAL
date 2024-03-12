@@ -80,7 +80,7 @@
   </select>
   <br>
   <label for="skills">Interests (select multiple):</label>
-  <div id="skills">
+  <div id="skills" style="display: none;">
     {% for skill in skills %}
     <input type="checkbox" id="skill_{{ skill.id }}" name="skills" value="{{ skill.id }}">
     <label for="skill_{{ skill.id }}">{{ skill.name }}</label><br>
@@ -100,6 +100,14 @@
   const selectField = document.getElementById("fields_of_study")
   const selectSkills = document.getElementById("skills")
 
+  document.getElementById("fields_of_study").addEventListener("change", function () {
+    var skills = document.getElementById("skills");
+    if (this.value !== "") {
+      skills.style.display = "block";
+    } else {
+      skills.style.display = "none";
+    }
+  });
   selectField.onchange = function (event) {
     const field_id = event.target.value; // checks if the selected field ID is valid
     if (field_id) {

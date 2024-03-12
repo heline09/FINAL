@@ -3,11 +3,25 @@
 
 {% block title %}Posted Internship{% endblock title %}
 
+
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+	integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
+<style> 
+body {
+    background: white;
+  }
+</style>
+{% endblock styles %}
+
 {% block navbar %}
 {% include 'recruiters/recruiternav.html' %}
 {% endblock navbar %}
 
 {% block content %}
+<br><br><br>
 <h2 class="container">Posted</h2>
 <br>
 <!-- <table class="container p-3" style="border: 1px solid black;"> -->
@@ -19,6 +33,7 @@
             <!-- <th>Description</th> -->
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
+            <th scope="col">Edit</th>
             <!-- <th>Location</th> -->
             <!-- <th>Requirements</th>
                 <th>Recruiter</th> -->
@@ -32,6 +47,7 @@
             <!-- <td>{{ internship.description }}</td> -->
             <td>{{ internship.start_date }}</td>
             <td>{{ internship.end_date }}</td>
+            <td><a href="{% url 'postedjob' internship.id %}">view</a></td>
             <!-- <td>{{ internship.skills }}</td> -->
             <!-- <td>{{ internship.requirements }}</td> -->
             <!-- <td>{{ internship.recruiter.username }}</td> -->

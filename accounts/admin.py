@@ -1,12 +1,11 @@
 from django.contrib import admin
-from .models import CustomUser, StudentProfile, RecruiterProfile, UserSubscription, SubscriptionPlan, FieldOfStudy, Skill, Student
+from .models import CustomUser, StudentProfile, RecruiterProfile, UserSubscription, SubscriptionPlan, FieldOfStudy, Skill
 
 
 # Register your models here.
 admin.site.register(SubscriptionPlan)
 admin.site.register(UserSubscription)
 admin.site.register(FieldOfStudy)
-admin.site.register(Student)
 
 @admin.register(StudentProfile)
 class StudentProfileAdmin(admin.ModelAdmin):

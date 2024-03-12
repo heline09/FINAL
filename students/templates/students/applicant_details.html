@@ -1,0 +1,46 @@
+{% extends 'internconnect/main.html' %}
+
+{% block title %}Applicant Details{% endblock title %}
+
+{% block content %}
+
+<p>hey {{application.applicant.username}}</p>
+<h1>Student Profile</h1>
+
+<div>
+    <h2>Name:</h2>
+    <p>{{application.applicant.username}}</p>
+</div>
+<div>
+    <h2>Profile Image:</h2>
+    {% if student_profile.image %}
+    <img src="{{ student_profile.image.url }}" alt="Student Profile Image">
+    {% else %}
+    <p>No profile image uploaded.</p>
+    {% endif %}
+</div>
+<div>
+    <h2>CV Attachment:</h2>
+    {% if application.applicant.cv %} <a href="{{ student_profile.cv.url }}">Download CV</a>
+    {% else %}
+    <p>No CV uploaded.</p>
+    {% endif %}
+</div>
+<div>
+    <h2>Skills:</h2>
+    <ul>
+        {% for skill in application.applicant.skills.all %} <li>{{ skill.name }}</li> {% endfor %}
+    </ul>
+</div>
+<form action="{% url 'applicant_details' application.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="accepted" value="true">
+    <button type="submit">Accept</button>
+</form>
+
+<form action="{% url 'applicant_details' application.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="denied" value="true">
+    <button type="submit">Deny</button>
+</form>
+{% endblock content %}

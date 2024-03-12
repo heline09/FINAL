@@ -8,6 +8,7 @@
 {% endblock navbar %}
 
 {% block styles %}
+{{block.super}}
 <link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
 <style>
     .button-container {
@@ -65,11 +66,14 @@
         color: #007bff;
         /* Adjust color of strong elements */
     }
+    body{
+        background-color: white;
+    }
 </style>
 {% endblock styles %}
 
 {% block content %}
-<br><br><br>
+<br><br><br><br>
 <div class="description">
     <h1 class="job-title"><strong>{{ internship.title }}</strong></h1>
     <h2 class="job-company">{{ internship.company }}</h2>

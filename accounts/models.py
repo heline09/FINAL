@@ -51,7 +51,7 @@ class StudentProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     image = models.ImageField(default = 'default.jpg', upload_to='profile_pics')
     skills = models.ManyToManyField(Skill)
-    cv = models.FileField(upload_to='cvs', blank=True)
+    cv = models.FileField(upload_to='cvs/', blank=True)
     
     def __str__(self):
         return f"{self.user.username}'s Profile"
@@ -73,10 +73,4 @@ class RecruiterProfile(models.Model):
         return f"{self.user.username}'s Profile"
 
 
-class Student(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    skills = models.ManyToManyField(Skill)
 
-
-    def __str__(self):
-        return f"{self.user.username} (Student)"

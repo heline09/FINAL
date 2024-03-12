@@ -1,1 +1,97 @@
-<p>Welcome to your student profile!</p>
+{% extends 'internconnect/main.html' %}
+{% load static %}
+
+{% block title %}{{user.username}} Profile {% endblock title %}
+
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
+<style>
+    .profile-container {
+        font-size: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: 10px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 25px;
+        font-family: sans-serif;
+        font-weight: bold;
+    }
+
+    body {
+        background: white;
+    }
+
+    .button-container {
+        text-align: center;
+    }
+
+    .button-container form {
+        display: inline-block;
+        margin-right: 10px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
+
+{% endblock styles %}
+
+{% block navbar %}
+{% include 'students/studentnav.html' %}
+{% endblock navbar %}
+
+{% block content %}
+<br><br><br><br>
+<div class="profile-container">
+    <h1>{{student_profile.user.username}}'s Profile</h1>
+
+    <div>
+        <h2>Name:</h2>
+        <p>{{ student_profile.user.username }}</p>
+    </div>
+
+    <div>
+        <h2>Skills:</h2>
+        <ul>
+            {% for skill in student_profile.user.skills.all %}
+            <li>{{ skill.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h2>CV Attachment:</h2>
+        {% if student_profile.user.cv %} <a href="{{ student_profile.cv.url }}">Download CV</a>
+        {% else %}
+        <p>No CV uploaded.</p>
+        {% endif %}
+    </div>
+
+    <div class="button-container">
+        <form action="" method="get">
+            <button type="submit"
+                style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Edit
+                Profile Information</button>
+        </form>
+
+        <form action="" method="get">
+            <button type="submit"
+                style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Change
+                Password</button>
+        </form>
+
+        <form action="" method="get">
+            <button type="submit"
+                style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Print
+                My Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -5,6 +5,9 @@
 
 {% block styles %}
 {{block.super}}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+	integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
 <style>
     body {
         background: white;
@@ -30,6 +33,7 @@
 <!-- Main Content -->
 <div class="main-content" style="margin-top: 24px;">
     <!-- Your main content goes here -->
+    <br><br><br>
     <h1 class="welcome-message">Welcome {{user.username}} to Your Student Dashboard</h1>
     <!-- Add searchbar here -->
     <div class="search-container">

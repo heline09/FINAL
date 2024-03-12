@@ -1,21 +1,36 @@
 {% extends 'internconnect/main.html' %}
 
-{% block content %}
-<h2 class="welcome message">Welcome to Interconnect</h2>
-<header>
-    <h2>Ignite Your Future, Unleash Untapped Potential!</h2>
-    <p>Connecting ambitious students with inspiring organizations. Unearthing raw talent, igniting career dreams.</p>
-  </header>
+{%load static%}
 
-  <section class="students">
-    <h3>Are you a student seeking?</h3>
+{% block styles%}
+{{block.super}}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+	integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+  rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/landing.css' %}">
+{% endblock styles%}
+{% block content %}
+
+  <!-- <section class="subscription-packages" style="padding: 40px;
+text-align: center;">
+    <h2>Recruiters, Amplify Your Reach with Subscription Packages!</h2>
+    <p>Unlock exclusive features and reach a wider audience by subscribing to our premium packages. With our
+      subscription
+      packages, recruiters from different organizations can post internships and access a vibrant talent pool of highly
+      motivated university students.</p>
+    <h3>Subscription Benefits:</h3>
     <ul>
-      <li>Meaningful internships that spark your passion?</li>
-      <li>Real-world experience to boost your resume?</li>
-      <li>Connections with top organizations leading to dream jobs?</li>
+      <li>Post unlimited internships throughout the subscription period.</li>
+      <li>Feature your internship postings at the top of search results for increased visibility.</li>
+      <li>Access advanced candidate filtering tools to find the perfect match for your organization.</li>
+      <li>Receive personalized support from our team to optimize your recruitment strategy.</li>
     </ul>
-    <p>Internconnect is your launchpad!</p>
-    <a href="{% url 'listings' %}" class="button">Explore Internships</a>
+    <p>Don't miss out on discovering exceptional talent! Choose the subscription package that best suits your
+      organization's needs and start posting internships today.</p>
+    <a href="#" class="button">Explore Subscription Packages</a>
   </section>
 
   <section class="recruiters">
@@ -28,11 +43,72 @@
     </ul>
     <a href="#" class="button">Post an Internship</a>
   </section>
+</div> --> 
 
-  <section class="call-to-action">
-    <h2>Join the Internconnect community:</h2>
-    <p>Empower your career journey with personalized guidance. Network with fellow students and industry professionals. Unlock your potential and achieve your career aspirations.</p>
-    <a href="#" class="button">Sign Up Now</a>
+<section class="container">
+  <div class="content__container">
+    <h1 class="welcome-message" style="font-weight: bold;">Welcome to Internconnect</h1>
+    <h1>
+      Ignite Your Future,<br />
+      <span class="heading__2">Unleash Untapped Potential!</span><br />
+    </h1>
+    <p class="para" style="font-family: sans-serif; font-size: 20px;">
+      Welcome to our vibrant internship hub! Discover, apply, and excel in exciting career opportunities. Connecting
+      ambitious students with inspiring organizations. Unearthing raw talent, igniting career dreams.
+    </p>
+    <form>
+      <a href="{% url 'listings' %}" class="button">Explore Internships</a>
+    </form>
+  </div>
+  <div class="image__container">
+    <img class="hero-image" src="static/images/student.jpg" alt="student">
+    <img class="hero-image" src="static/images/student2.jpg" alt="student">
+    <div class="image__content">
+      <ul>
+        Get:
+        <li>Meaningful internships that spark your passion</li>
+        <li>Connections with top organizations leading to dream jobs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="recruiters">
+  <div class="recruiter__container">
+    <h1 class="rec-head" style="font-weight: bold;">Recruiters, <br />
+      <span class="heading__2">tap into a vibrant talent pool:</span>
+    </h1>
+    <ul class="unor" style="font-family: sans-serif; font-size: 20px;">
+      <li>Access a diverse range of highly motivated university students.</li>
+      <li>Filter candidates based on skills, experience, and academic background.</li>
+      <li>Discover hidden gems with raw potential and a hunger to learn.</li>
+      <li>Build your talent pipeline for the future.</li>
+    </ul>
+    <a href="#" style="padding: 10px; background-color: blue; border-radius: 12px; color: white; text-align: center; text-decoration: none;" >Post an Internship</a>
+  </div>
+  <div class="image__container">
+    <img class="hero-image" src="static/images/recruiter.jpg" alt="student">
+    <img class="hero-image" src="static/images/recruiter2.jpg" alt="student">
+  </div>
+</section>
+
+<div class="container-2">
+  <section class="subscription-packages" style="padding: 40px; text-align: center;">
+    <div style="background-color: #25357a; padding: 20px; color: white;">
+      <h2>Before Posting an Internship...</h2>
+      <ul class="unor" style="font-family: sans-serif; font-size: 20px;">
+        <li>Create an account on our platform to gain access to exclusive features and expand your reach.</li>
+        <li>Select an appropriate subscription plan that suits your organization's needs.</li>
+        <li>Make payments for the chosen subscription plan to unlock its benefits.</li>
+        <li>With our subscription plans, recruiters can post unlimited internships throughout the subscription period
+          and <br />
+          feature their internship postings at the top of search results for increased visibility.</li>
+      </ul>
+    </div>
+    <p>Don't miss out on discovering exceptional talent! Choose the subscription package that best suits your
+      organization's needs and start posting internships today.</p>
+    <a href="{% url 'subscribePage' %}" class="button">Explore Subscription Packages</a>
   </section>
+</div>
+
 
 {% endblock content %}

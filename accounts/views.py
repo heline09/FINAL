@@ -1,16 +1,18 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, logout, login as auth_login # library for user authentication
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from . forms import UserRegisterForm, StudentForm
-from .models import SubscriptionPlan, UserSubscription, Student, Skill, FieldOfStudy
+from . forms import UserRegisterForm
+from .models import SubscriptionPlan, UserSubscription, Skill, FieldOfStudy
 from internconnect.models import Internship
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
 from .models import StudentProfile, RecruiterProfile
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 def registerPage(request):
@@ -29,7 +31,11 @@ def registerPage(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-
+            subject = 'Welcome to Internconnect'
+            message = f'Hi {user.username}, thank you for joining Internconnect'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [user.email,]
+            send_mail(subject, message, email_from, recipient_list )
             if selected_role == "student":
                 return redirect('skills')
             elif selected_role == "recruiter":
@@ -127,12 +133,12 @@ def logoutUser(request):
      return redirect('/')
 
 
-def student_profile(request, user_id):
-    student_profile = StudentProfile.objects.get(user_id=user_id)
+def student_profile(request, user_id ):
+    student_profile = get_object_or_404(StudentProfile,user_id=user_id)
     return render(request, 'accounts/student_profile.html', {'student_profile': student_profile})
 
 def recruiter_profile(request, user_id):
-    recruiter_profile = RecruiterProfile.objects.get(user_id=user_id)
+    recruiter_profile = RecruiterProfile.objects.get(id=user_id)
     return render(request, 'accounts/recruiter_profile.html', {'recruiter_profile': recruiter_profile})
 
 

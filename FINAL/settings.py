@@ -98,10 +98,7 @@ SUBSCRIPTION_PLANS = {
     },
     
 }
-# payment processor
-SUBSCRIPTION_PAYMENT_PROCESSOR = 'subscriptions.payment_processors.stripe'
-STRIPE_PUBLIC_KEY = 'your_stripe_public_key'
-STRIPE_SECRET_KEY = 'your_stripe_secret_key'
+
 
 WSGI_APPLICATION = 'FINAL.wsgi.application'
 
@@ -164,6 +161,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'luisashikuku@gmail.com'
+EMAIL_HOST_PASSWORD = 'xyeh rtyy upjq ibrc'
 
 MEDIA_URL = 'images/'
 MEDIA_ROOT = BASE_DIR / "media"

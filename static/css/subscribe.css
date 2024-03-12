@@ -8,10 +8,10 @@ body{margin-top:20px;
         margin: 0px 15px;
     }
     .pricing_design .single-pricing{
-        background:#554c86;
+        background:#4b485a;
         padding: 60px 40px;
         border-radius:30px;
-        box-shadow: 0 10px 40px -10px rgba(0,64,128,.2);
+        box-shadow: 0 10px 40px -10px rgba(62, 80, 97, 0.2);
         position: relative;
         z-index: 1;
     }

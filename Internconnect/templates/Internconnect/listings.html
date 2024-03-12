@@ -62,7 +62,7 @@
 </script>
 <div id="internship-list" class="job-container">
   {% for internship in internships %}
-  <a href="{% url 'details' internship.id %}">
+  <a href="{% url 'details' internship.id %}"style="color:grey; text-decoration: none;">
   <div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
     <h2 class="job-title">{{ internship.title }}</h2>
     <p class="job-company">{{ internship.company }}</p>

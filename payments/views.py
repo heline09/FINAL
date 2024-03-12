@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Payment
+from .models import MpesaPayment
 from accounts.models import SubscriptionPlan, UserSubscription
 from django_daraja.mpesa.core import MpesaClient
 import json
+from .mpesa.core import verify_payment
+from .mpesa.status import MpesaStatus
+from datetime import timedelta, datetime
 
 
 @login_required
@@ -31,15 +34,15 @@ def process_payment(request):
         callback_url = BASE_URL + f'/subscription_confirmation/{user_id}/{plan_id}/'
         
         response = cl.stk_push(phone, amount, account_reference, transaction_desc, callback_url)
-
-        return HttpResponse(response)
-
-        # Process payment and update subscription status
-        # Redirect to a confirmation page or dashboard
-        # return redirect(reverse('subscription_confirmation'))
-    # else:
-        # Redirect to an error page or previous page
-
+        print(f'The response code is:{response.response_code}')
+        if response.response_code == "0":
+            mpesa_payment = MpesaPayment.objects.create(user=request.user, subscription=subscription_plan, reference_id=response.checkout_request_id)
+            return redirect('confirm_payment', mpesa_payment.id)
+        else:
+            messages.error(request, "We couldn't process your payment")
+            return redirect('payment_page', plan_id)
+        
+        
 
 def subscription_confirmation(request, user_id, plan_id):
     """
@@ -55,12 +58,33 @@ def subscription_confirmation(request, user_id, plan_id):
     return render(request, 'payments/subscription_confirmation.html')
 
 
-def confirm_payment(request):
+def confirm_payment(request, mpesa_payment_id):
     """
     Ask the user if they have paid then check the database to verify 
     """
-    if request.method == 'POST':
-         # user has selected 'Yes I've Paid'
-        # Fetch the UserSubscription for request.user and plan_id
-        pass
-    return render(request, 'payments/confirm_payment.html')
+    context = {'mpesa_payment_id':mpesa_payment_id}
+    return render(request, 'payments/confirm_payment.html', context)
+   
+def MpesaPaymentConfirmation(request,mpesa_payment_id):
+    """
+    Ask the user if they have paid then check the database to verify 
+    """ 
+    mpesa_payment = get_object_or_404(MpesaPayment, id = mpesa_payment_id)
+    if mpesa_payment.is_complete:
+        messages.error(request, 'You have already paid')
+        return redirect('recruiter_dashboard')
+    payement_status =  verify_payment(mpesa_payment.reference_id)
+    print(payement_status)
+    if payement_status == MpesaStatus.Completed:
+        end_date = datetime.now()+timedelta(days=mpesa_payment.subscription.duration)
+        user_subscription = UserSubscription.objects.create(plan=mpesa_payment.subscription, user=mpesa_payment.user, active=True, end_date=end_date)
+        request.user.subscription_plan = mpesa_payment.subscription
+        request.user.save()
+        mpesa_payment.is_complete = True
+        mpesa_payment.save()
+        messages.success(request, 'Payment was successful')
+        return redirect('recruiter_dashboard')
+    else:
+        messages.error(request, 'Payment was not successful.Try again')
+        return redirect('payment_page', mpesa_payment.subscription.id)
+ 

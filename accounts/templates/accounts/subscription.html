@@ -21,9 +21,8 @@
 <section id="pricing" class="pricing-content section-padding">
     <div class="container">
         <div class="section-title text-center">
-            <h2>Pricing Plans</h2>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when
-                looking at its layout.</p>
+            <h1>Pricing Plans</h1>
+            <h2>Choose a suitable plan for your organization:</h2>
         </div>
         <div class="row text-center">
             {% for plan in plans %}
@@ -34,22 +33,20 @@
                     <div class="single-pricing">
                         <div class="price-head">
                             <h2>{{ plan.name }}</h2>
-                            <h1>${{ plan.price }}</h1>
-                            <span>{{ plan.duration }} days</span>
+                            <h1>Ksh.{{ plan.price }}</h1>
+                            <span> Post Internships for {{ plan.duration }} days</span>
                         </div>
-                        <ul>
+                        <!-- <ul>
                             <li><b>{{ plan.website_limit }}</b> website</li>
                             <li><b>{{ plan.disk_space }}</b> Disk Space</li>
                             <li><b>{{ plan.email_limit }}</b> Email</li>
                             <li><b>{{ plan.bandwidth }}</b> Bandwidth</li>
                             <li><b>{{ plan.subdomains }}</b> Subdomains</li>
                             <li><b>Unlimited</b> Support</li>
-                        </ul>
+                        </ul> -->
                         <div class="pricing-price">
-                            {{plan.id}}
-
                         </div>
-                        <a href="{% url 'payment_page' plan.id %}" class="price_btn">Order Now</a>
+                        <a href="{% url 'payment_page' plan.id %}" class="price_btn">Subscribe Now</a>
                     </div>
                 </div>
             </div>

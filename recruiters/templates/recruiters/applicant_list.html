@@ -8,6 +8,7 @@
 {% endblock navbar %}
 
 {% block styles %}
+{{block.super}}
 <style>
     .navbar {
         padding: 8px 16px;
@@ -80,14 +81,18 @@
         /* Adjust based on sidebar width */
         padding: 20px;
     }
+    body{
+        background-color: white;
+    }
 </style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+  integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 {% endblock styles %}
 
 
 {% block content %}
+<br><br><br><br>
 <div class="applicant-list">
 <h2 style="margin-left: 20px;">Applicants for {{internship.title}}</h2>
 <br>
@@ -97,6 +102,7 @@ integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLAS
             <th>Name</th>
             <th>Email</th>
             <th>Skills</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
@@ -104,9 +110,9 @@ integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLAS
         <tr class="applicant">
             <td>{{ application.applicant.username }}</td>
             <td>{{ application.applicant.email }}</td>
-            <td>{{ application.applicant.skills }}</td>
             <td>
-                <a href="{% url 'applicant_details' application.id %}">View Details</a> 
+                <a href="{% url 'applicant_details' application.id %}" style="color:grey; text-decoration: none; font-weight: bold;">View Details</a> 
+                <td>{{ application.status}}</td>
         </tr>
         {% endfor %}
     </tbody>
