@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure--6azvoq@+w88i&&u-h#o0-j%kf8s_nnkg+cvo--@_6tla691a0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -79,25 +79,6 @@ TEMPLATES = [
     },
 ]
 
-# subscription related settings
-SUBSCRIPTION_PLANS = {
-    'basic': {
-        'cost': 15.00,  
-        'features': ['Feature 1', 'Feature 2', ...],
-        'active': True,  
-    },
-    'standard': {
-        'cost': 30.00, 
-        'features': ['Feature 1', 'Feature 2', ...],
-        'active': True,  # Optional: Set to False if not yet ready
-    },
-    'premium': {
-        'cost': 60.00,  
-        'features': ['Feature 1', 'Feature 2', ...],
-        'active': True,  
-    },
-    
-}
 
 
 WSGI_APPLICATION = 'FINAL.wsgi.application'
@@ -160,7 +141,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
@@ -168,8 +150,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'luisashikuku@gmail.com'
 EMAIL_HOST_PASSWORD = 'xyeh rtyy upjq ibrc'
 
-MEDIA_URL = 'images/'
-MEDIA_ROOT = BASE_DIR / "media"
+STATIC_URL = '/static/'
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static', )

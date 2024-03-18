@@ -1,5 +1,9 @@
 from django.db import models
 from accounts.models import CustomUser, SubscriptionPlan
+from datetime import datetime
+from django.utils import timezone
+from datetime import date
+
 
 class Payment(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -17,4 +21,5 @@ class MpesaPayment(models.Model):
     subscription = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
     reference_id = models.CharField(max_length=255)
     is_complete = models.BooleanField(default=False)
-    # amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateTimeField(default=timezone.now)

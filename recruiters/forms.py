@@ -12,5 +12,5 @@ class RecruiterForm(ModelForm):
 
     class Meta:
         model = Internship
-        fields = ['title', 'company', 'description', 'skills', 'start_date', 'end_date', 'expiry_date', 'location', 'requirements']
+        fields = ['title', 'company', 'description', 'skills', 'start_date', 'end_date', 'expiry_date', 'location', 'requirements', 'max_responses']
 

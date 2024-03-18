@@ -10,14 +10,19 @@ import requests
 from .forms import ApplicationForm
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+import json
+from reportlab.pdfgen import canvas
+from io import BytesIO
 
 @login_required
 def student_dashboard(request):
     student_skills = request.user.skills.all()
     internships = []
+
+    valid_internships = Internship.get_all()
+
     for skill in student_skills:
-        for internship in skill.internships.all():
+        for internship in skill.internships.filter(id__in=valid_internships):
             if internship not in internships: # to avoid repetition
                 internships.append(internship)
 
@@ -31,6 +36,10 @@ def student_dashboard(request):
 def applyPage(request, internship_id):
     internship = get_object_or_404(Internship, pk=internship_id)
     existing_application = Application.objects.filter(internship_id=internship_id, applicant=request.user).first() #check for existing application
+    
+    if internship.can_apply():
+        messages.error(request, 'Maximum response limit reached for this internship.')
+        return redirect('student_dashboard')
 
     if request.method =='POST':
         if existing_application:
@@ -80,3 +89,29 @@ def mark_as_read(request, notification_id):
     notification.opened = True
     notification.save()
     return JsonResponse({'success': True})  # Or a custom response
+
+@csrf_exempt
+def generate_report(request):
+    if request.method == 'POST':
+        # Get data from request
+        data = json.loads(request.body)
+
+        # Create PDF using ReportLab
+        buffer = BytesIO()
+        pdf = canvas.Canvas(buffer)
+        pdf.drawString(100, 750, "Application Report")  # Add report title
+        y = 730
+        for row in data['data']:
+            y -= 20
+            pdf.drawString(100, y, ', '.join(row))  # Add table data
+        pdf.showPage()
+        pdf.save()
+
+        # Return the PDF as an HttpResponse
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="application_report.pdf"'
+        response.write(buffer.getvalue())
+        buffer.close()
+        return response
+    else:
+        return HttpResponse(status=400)

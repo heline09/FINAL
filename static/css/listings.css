@@ -1,5 +1,5 @@
 /* Basic styling for the internship list */
-    *{
+* {
   font-family: sans-serif;
 }
 
@@ -17,16 +17,20 @@
   padding: 1rem;
   margin-right: 10rem;
   margin-left: 10rem;
-  cursor: pointer; /* Added cursor pointer for interactivity */
-  transition: background-color 0.3s; /* Added transition for smooth color change */
+  cursor: pointer;
+  /* Added cursor pointer for interactivity */
+  transition: background-color 0.3s;
+  /* Added transition for smooth color change */
 }
 
 .job-card:hover {
-  background-color: #e0e0e0; /* Color change on hover */
+  background-color: #e0e0e0;
+  /* Color change on hover */
 }
 
 .job-card:active {
-  background-color: #d0d0d0; /* Color change when clicked */
+  background-color: #d0d0d0;
+  /* Color change when clicked */
 }
 
 .job-title {
@@ -51,6 +55,10 @@
   justify-content: flex-end;
 }
 
+.job-expiry {
+  color: black;
+}
+
 .job-apply button {
   background-color: #007bff;
   border: none;
@@ -71,8 +79,9 @@
   margin-left: 1rem;
   margin-right: 3rem;
   margin-bottom: 1rem;
-  
+
 }
+
 .search-bar-container {
   display: inline-block;
   position: relative;

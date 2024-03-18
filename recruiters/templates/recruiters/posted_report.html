@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Internship Report</title>
+    <style>
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <img class="logo" src="{{ logo_path }}" alt="Logo" style="width: 150px; height: auto;">
+    <h2 class="report-title" style="font-size: 40px; font-weight: bold;">Internconnect</h2>
+    <p style="text-align: right; font-size:15px; font-weight: bold;">Date: {{ date }}</p>
+    <h1 style="font-size: 15px;">Internship Report</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Post Date</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <!-- <th>View</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for internship in internships %}
+            <tr>
+                <td>{{ internship.title }}</td>
+                <td>{{ internship.company }}</td>
+                <td>{{ internship.post_date }}</td>
+                <td>{{ internship.start_date }}</td>
+                <td>{{ internship.end_date }}</td>
+                {% comment %}<td><a href="{% url 'update_internship' internship.id %}">edit</a></td>{% endcomment %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

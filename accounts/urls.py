@@ -11,4 +11,7 @@ urlpatterns = [
     path('subscription/user/', views.user_subscriptions, name="user_subscriptions"),
     path('profile/student/<int:user_id>/', views.student_profile, name='student_profile'),
     path('profile/recruiter/<int:user_id>/', views.recruiter_profile, name='recruiter_profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    #path('profile/recruiter/<int:user_id>/edit/', views.edit_recruiter_profile, name='edit_recruiter_profile'),
+
 ]

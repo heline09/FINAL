@@ -7,12 +7,12 @@
 {% block styles %}
 {{block.super}}
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
-	integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
-<style> 
-body {
-    background: white;
-  }
+<style>
+    body {
+        background: white;
+    }
 </style>
 {% endblock styles %}
 
@@ -25,15 +25,15 @@ body {
 <h2 class="container">Posted</h2>
 <br>
 <!-- <table class="container p-3" style="border: 1px solid black;"> -->
-<table class="table container">
+<table id="table" class="table container">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Title</th>
             <th scope="col">Company</th>
-            <!-- <th>Description</th> -->
+            <th scope="col">Post Date</th>
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
-            <th scope="col">Edit</th>
+            <th scope="col">View</th>
             <!-- <th>Location</th> -->
             <!-- <th>Requirements</th>
                 <th>Recruiter</th> -->
@@ -45,9 +45,12 @@ body {
             <td>{{ internship.title }}</td>
             <td>{{ internship.company }}</td>
             <!-- <td>{{ internship.description }}</td> -->
+            <td>{{ internship.post_date }}</td>
             <td>{{ internship.start_date }}</td>
             <td>{{ internship.end_date }}</td>
-            <td><a href="{% url 'postedjob' internship.id %}">view</a></td>
+            <td><a href="{% url 'update_internship' internship.id %}"
+                    style="padding: 2px 15px; background-color: #45526e; border-radius: 2rem; color: white; text-align: center; text-decoration: none;">edit</a>
+            </td>
             <!-- <td>{{ internship.skills }}</td> -->
             <!-- <td>{{ internship.requirements }}</td> -->
             <!-- <td>{{ internship.recruiter.username }}</td> -->
@@ -55,5 +58,6 @@ body {
         {% endfor %}
     </tbody>
 </table>
+<a class="nav-link" href="{% url 'generate_pdf_report' %}">Download PDF Report</a>
 
 {% endblock %}

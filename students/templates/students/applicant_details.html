@@ -2,45 +2,96 @@
 
 {% block title %}Applicant Details{% endblock title %}
 
+{% block navbar %}
+{% include 'recruiters/recruiternav.html' %}
+{% endblock navbar %}
+
+{% block styles %}
+{{block.super}}
+<style>
+    .profile-container {
+        font-size: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: 10px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        background-color: white;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .button-container {
+        display: flex;
+        margin-left: 250px;
+    }
+
+    .accept-btn {
+        background-color: lightgreen;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin-right: 10px;
+
+    }
+
+    .deny-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+{% endblock styles %}
+
 {% block content %}
+{% include 'accounts/messages.html' %}
+<div class="profile-container">
+    <h1>{{application.applicant.username}}'s Profile</h1>
 
-<p>hey {{application.applicant.username}}</p>
-<h1>Student Profile</h1>
+    <div>
+        <h2>Name:</h2>
+        <p>{{application.applicant.username}}</p>
+    </div>
+    <div>
+        <h2>Application message:</h2>
+        <p>{{application.application_message}}</p>
+    </div>
+    <div>
+        <h2>CV Attachment:</h2>
+        <a href="{% url 'download_cv' application.id %}">Download CV</a>
+    </div>
+    <div>
+        <h2>Skills:</h2>
+        <ul>
+            {% for skill in application.applicant.skills.all %}
+            <li>{{ skill.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="button-container">
+        <form action="{% url 'applicant_details' application.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="accepted" value="true">
+            <button type="submit" class="accept-btn">Accept</button>
+        </form>
 
-<div>
-    <h2>Name:</h2>
-    <p>{{application.applicant.username}}</p>
+        <form action="{% url 'applicant_details' application.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="denied" value="true">
+            <button type="submit" class="deny-btn">Deny</button>
+        </form>
+    </div>
 </div>
-<div>
-    <h2>Profile Image:</h2>
-    {% if student_profile.image %}
-    <img src="{{ student_profile.image.url }}" alt="Student Profile Image">
-    {% else %}
-    <p>No profile image uploaded.</p>
-    {% endif %}
-</div>
-<div>
-    <h2>CV Attachment:</h2>
-    {% if application.applicant.cv %} <a href="{{ student_profile.cv.url }}">Download CV</a>
-    {% else %}
-    <p>No CV uploaded.</p>
-    {% endif %}
-</div>
-<div>
-    <h2>Skills:</h2>
-    <ul>
-        {% for skill in application.applicant.skills.all %} <li>{{ skill.name }}</li> {% endfor %}
-    </ul>
-</div>
-<form action="{% url 'applicant_details' application.id %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="hidden" name="accepted" value="true">
-    <button type="submit">Accept</button>
-</form>
-
-<form action="{% url 'applicant_details' application.id %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="hidden" name="denied" value="true">
-    <button type="submit">Deny</button>
-</form>
 {% endblock content %}

@@ -6,6 +6,8 @@
 
 {% block styles %}
 {{block.super}}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="{% static 'css/listings.css' %}" media="screen">
 {% endblock styles %}
 
@@ -62,11 +64,12 @@
 </script>
 <div id="internship-list" class="job-container">
   {% for internship in internships %}
-  <a href="{% url 'details' internship.id %}"style="color:grey; text-decoration: none;">
+  <a href="{% url 'details' internship.id %}"style="color:black; text-decoration: none;">
   <div class="job-card" onclick="openDetailsPage('{{ internship.id }}')">
     <h2 class="job-title">{{ internship.title }}</h2>
     <p class="job-company">{{ internship.company }}</p>
     <p class="job-description">{{ internship.description }}</p>
+    <div class="job-expiry"><span style="color: rgb(228, 36, 62);">Expiry date:</span>{{ internship.expiry_date }}</div>
     <div class="job-apply"></div>
   </div>
   </a>

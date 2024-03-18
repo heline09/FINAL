@@ -25,8 +25,15 @@
 
 <h2 class="container">My Applications</h2>
 <br>
+<select id="statusFilter">
+  <option value="all">All</option>
+  <option value="accepted">Accepted</option>
+  <option value="pending">Pending</option>
+  <option value="denied">Denied</option>
+</select>
+
 <!-- <table class="container p-3" style="border: 1px solid black;"> -->
-<table class="table container">
+<table class="table container" id="applicationTable">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Internship Title</th>
@@ -56,5 +63,59 @@
     {% endfor %}
   </tbody>
 </table>
+<button onclick="generatePDF()" class="submit" style="margin-left: 90px;">Generate PDF</button>
+{% block scripts %}
+<script>
+  // Function to filter data based on selected status
+  function filterDataByStatus(status) {
+    // Get table rows
+    var rows = document.querySelectorAll('#applicationTable tbody tr');
 
+    // Show/hide rows based on status
+    rows.forEach(function (row) {
+      var statusCell = row.querySelector('td:last-child').innerText.trim();
+      if (status === 'all' || status === statusCell.toLowerCase()) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  // Event listener for status filter change
+  document.getElementById('statusFilter').addEventListener('change', function () {
+    var selectedStatus = this.value;
+    filterDataByStatus(selectedStatus);
+  });
+
+  // Function to generate PDF report
+  function generatePDF() {
+    // Get filtered data (visible rows in the table)
+    var visibleRows = document.querySelectorAll('#applicationTable tbody tr');
+
+    // Prepare data array
+    var data = [];
+    visibleRows.forEach(function (row) {
+      var rowData = [];
+      row.querySelectorAll('td').forEach(function (cell) {
+        rowData.push(cell.innerText);
+      });
+      data.push(rowData);
+    });
+
+    // Send data to Django view for PDF generation
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/students/applications/generate_report/', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // PDF generation successful
+        console.log('PDF generated successfully.');
+      }
+    };
+    xhr.send(JSON.stringify(data));
+  }
+</script>
+
+{% endblock scripts %}
 {% endblock %}

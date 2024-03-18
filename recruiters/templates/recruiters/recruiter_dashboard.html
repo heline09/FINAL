@@ -67,12 +67,12 @@
 <!-- Main Content -->
 <div class="main-content">
     <!-- Your main content goes here -->
-    <h1>Welcome {{user.username}} Your Dashboard</h1>
+    <h1>Welcome {{user.username}}!!</h1>
 </div>
 <div id="internship-list" class="job-container">
     <!-- Render job cards here -->
     {% for internship in internships %}
-    <a href="{% url 'applicant_list' internship.id %}" style="color:grey; text-decoration: none;">
+    <a href="{% url 'applicant_list' internship.id %}" style="color:black; text-decoration: none;">
         <div class="job-card">
             <h2 class="job-title">{{ internship.title }}</h2>
             <p class="job-company">{{ internship.company }}</p>

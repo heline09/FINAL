@@ -48,15 +48,27 @@
 {% endblock navbar %}
 
 {% block content %}
+{% include 'accounts/messages.html' %}
 <br><br><br><br>
 <div class="profile-container">
     <h1>{{student_profile.user.username}}'s Profile</h1>
 
     <div>
+        <h2>Profile Image:</h2>
+        {% if student_profile.image %}
+        <img src="{{ student_profile.image.url }}" alt="Student Profile Image">
+        {% else %}
+        <p>No profile image uploaded.</p>
+        {% endif %}
+    </div>
+    <div>
         <h2>Name:</h2>
         <p>{{ student_profile.user.username }}</p>
     </div>
-
+    <div>
+        <h2>Email:</h2>
+        <p>{{ student_profile.user.email }}</p>
+    </div>
     <div>
         <h2>Skills:</h2>
         <ul>
@@ -68,29 +80,17 @@
 
     <div>
         <h2>CV Attachment:</h2>
-        {% if student_profile.user.cv %} <a href="{{ student_profile.cv.url }}">Download CV</a>
+        {% if student_profile.cv %} <a href="{{ student_profile.cv.url }}">Download CV</a>
         {% else %}
         <p>No CV uploaded.</p>
         {% endif %}
     </div>
 
     <div class="button-container">
-        <form action="" method="get">
+        <form action="{% url 'edit_profile' %}" method="get">
             <button type="submit"
                 style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Edit
-                Profile Information</button>
-        </form>
-
-        <form action="" method="get">
-            <button type="submit"
-                style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Change
-                Password</button>
-        </form>
-
-        <form action="" method="get">
-            <button type="submit"
-                style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Print
-                My Profile</button>
+                Profile</button>
         </form>
     </div>
 </div>

@@ -15,15 +15,20 @@ class Internship(models.Model):
     requirements = models.TextField()
     recruiter = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="posted_internships")
     skills = models.ManyToManyField(Skill, related_name='internships')
+    max_responses = models.PositiveIntegerField()
     # candidates = models.ManyToManyField(CustomUser, related_name='applied_internships')
 
     def __str__(self):
         return self.title
-
+     
+   
+    @classmethod
+    def get_all(cls):
+        return cls.objects.filter(expiry_date__gte=date.today())
     
-    # @classmethod
-    # def get_all(cls):
-    #     return cls.objects.filter(expiry_date__gte=date.today())
+    def can_apply(self):
+        application_count = self.applications.count()
+        return application_count >= self.max_responses
 
 class Notification(models.Model):
     recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name='notifications')

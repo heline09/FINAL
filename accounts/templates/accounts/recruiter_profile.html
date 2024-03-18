@@ -1,1 +1,85 @@
-<p>welocme to {{user.username}} to your recruiter profile</p>
+{% extends 'internconnect/main.html' %}
+{% load static %}
+
+{% block title %}{{user.username}}'s Profile {% endblock title %}
+
+{% block navbar %}
+{% include 'recruiters/recruiternav.html' %}
+{% endblock navbar %}
+
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
+<style>
+    .profile-container {
+        font-size: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: 10px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        background: white;
+    }
+
+    .button-container {
+        text-align: center;
+    }
+
+    .button-container form {
+        display: inline-block;
+        margin-right: 10px;
+    }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<br><br><br>
+<div class="profile-container">
+    <h1>{{recruiter_profile.user.username}}'s Profile</h1>
+    <div>
+        <h2>Profile Image:</h2>
+        {% if recruiter_profile.image %}
+        <img src="{{ recruiter_profile.image.url }}" alt="Recruiter Profile Image">
+        {% else %}
+        <p>No profile image uploaded.</p>
+        {% endif %}
+    </div>
+    <div>
+        <h2>Name:</h2>
+        <p>{{ recruiter_profile.user.username }}</p>
+    </div>
+    <div>
+        <h2>Email:</h2>
+        <p>{{ recruiter_profile.user.email }}</p>
+    </div>
+
+    <div>
+        <h2>Company:</h2>
+        <p>{{recruiter_profile.company_name}}</p>
+    </div>
+    <div>
+        <h2>Subscription Plan:</h2>
+        <p>{{recruiter_profile.subscription_plan}}</p>
+
+        <h2>Expiry date:</h2>
+        {% if end_date %}
+        <p>{{end_date}}</p>
+        {% endif %}
+    </div>
+    <div class="button-container">
+        <form action="{% url 'edit_profile' %}" method="get">
+            <button type="submit"
+                style="padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border: 1px solid #007bff; border-radius: 5px;">Edit
+                Profile</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

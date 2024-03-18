@@ -3,17 +3,64 @@
 
 {% block title %}Payment Confirmation{% endblock title %}
 
+{% block styles %}
+{{block.super}}
+<style>
+   .confirm-container {
+    font-size: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center; 
+}
+
+.button-container {
+    margin-top: 20px; 
+}
+
+.button {
+    padding: 10px;
+    border-radius: 9px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+
+}
+
+.button.yes {
+    background-color: rgb(28, 70, 28); 
+}
+
+.button.no {
+    background-color: rgb(148, 15, 26); 
+}
+
+</style>
+{% endblock styles %}
 
 {% block content%}
-
-<div style="display: flex; flex-direction: column;">
-    <p>Have you paid?</p>
-    <div style="display: flex; flex-direction: row;">
-        <a href="{% url 'MpesaPaymentConfirmation' mpesa_payment_id %}" class="button" style="padding: 10px; background-color: rgb(28, 70, 28); border-radius: 9px; color: white; text-align: center; text-decoration: none; margin-right: 10px;">Yes</a>
-        <button onclick="window.history.back()" class="button" style="padding: 10px; background-color: rgb(148, 15, 26); border-radius: 9px; color: white; text-align: center; text-decoration: none;">No</button>
+{% include 'accounts/messages.html' %}
+<div class="confirm-container">
+    <div class="confirm-content">
+        <p>Have you paid?</p>
+        <div class="button-container">
+            <form method="POST">
+                {% csrf_token %}
+            <button type="submit" class="button yes">Yes</button>
+        </form>
+        <button onclick="window.history.back()" class="button no">No</button>
+        </div>
     </div>
 </div>
 
 {% endblock content%}
-
-<!-- <button onclick="redirectToConfirmationPage('yes')" class="btn btn-success">Yes</button>

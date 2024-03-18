@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from .methods import handle_pagination
 
 def listings(request):
-     internships = Internship.objects.all()  # Retrieve all internship objects
+     internships = Internship.get_all()  # Retrieve all internship objects
      page = handle_pagination(request, internships, per_page=10)
      return render(request, 'internconnect/listings.html', {'internships': page.object_list, "page": page})
 

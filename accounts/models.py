@@ -67,6 +67,7 @@ def create_profile(sender, instance, created, **kwargs):
 class RecruiterProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     image = models.ImageField(default = 'default.jpg', upload_to='profile_pics')
+    subscription_plan = models.CharField(max_length=100)
     company_name = models.CharField(max_length=100)
     
     def __str__(self):

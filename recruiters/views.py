@@ -9,7 +9,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.core.mail import send_mail
-
+from datetime import date
+import mimetypes
+#xhtml imports
+import os
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.template import Context
 
 
 
@@ -24,6 +30,7 @@ def recruiter_dashboard(request):
     print(context)
     return render(request, 'recruiters/recruiter_dashboard.html', context)
 
+@login_required
 def posts(request): 
     context = {}
     
@@ -64,7 +71,6 @@ def posts(request):
     context['form'] = form 
     return render(request, 'recruiters/posts.html', context)
 
-
 def posted(request):
     internships = Internship.objects.filter(recruiter=request.user) 
     return render(request, 'recruiters/posted.html', {'internships': internships}) 
@@ -76,7 +82,6 @@ def applicant_list(request, internship_id):
 
 def applicant_details(request, application_id):
     application = get_object_or_404(Application, id=application_id)
-    # application = Application.objects.get(id=application_id)
     print(application.status)
     applicant = application.applicant
     if request.method=='POST':
@@ -94,46 +99,50 @@ def applicant_details(request, application_id):
                 message=  applicant_notification_message 
                           )
        
-        send_application_status_notification(application)    
+        # send_application_status_notification(application)    
         return redirect('applicant_list', internship_id=application.internship.id) # return to applicants page after responding to the applications
             
     return render(request, 'students/applicant_details.html', {'application':application})
 
-# def updatejob(request,id):
-#     internship = Internship.objects.get(id=id)
-#     form = RecruiterForm()
-#     context = {
-#         "internship": internship,
-#         'application': internship,
-#         "form": form
-#     }
-#     select_options = {}    
-#     for field in FieldOfStudy.objects.all():
-#             skills = [{'id': skill.id, 'name': skill.name} for skill in field.skills.all()]
-#             select_options[field.id] = skills   
+def update_internship(request, id):
+    internship = Internship.objects.get(id=id)
 
-#     selected_field_of_study_id = request.POST.get("select_field_of_study")
-#     if selected_field_of_study_id:
-#         skills = Skill.objects.filter(fields_of_study_id=selected_field_of_study_id)
-#     else:
-#         skills = Skill.objects.all()
-
-#     context['fields_of_study'] = FieldOfStudy.objects.all() 
-#     form = RecruiterForm()
+    if request.method == 'POST':
+        # Handle form submission for editing
+        form = RecruiterForm(request.POST, instance=internship)  # Pre-populate the form
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your internship is updated and submitted successfully!') 
+            return redirect('recruiter_dashboard')  # Replace with appropriate URL
+    else:
+        # Display the editing form with existing data
+        form = RecruiterForm(instance=internship)  # Pre-populate the form
     
-#     if request.method=='POST':
-#         form = RecruiterForm(request.POST or None)
-#         if form.is_valid():
-#             title = form.cleaned_data["title"]
-#             internship.title  = title
-#             internship.save()
+    # Fetch all fields of study and their associated skills
+    select_options = {}
+    for field in FieldOfStudy.objects.all():
+        skills = [{'id': skill.id, 'name': skill.name} for skill in field.skills.all()]
+        select_options[field.id] = skills
 
-        
-#         return redirect('/') 
-#     else:
-#         form = RecruiterForm()
-            
-#     return render(request, 'recruiters/updateform.html', context) # create an Update form template instead of using posts
+    # Get the selected field of study ID from the POST data
+    selected_field_of_study_id = request.POST.get("select_field_of_study")
+
+    # If a field of study is selected, filter skills based on it; otherwise, fetch all skills
+    if selected_field_of_study_id:
+        skills = Skill.objects.filter(fields_of_study_id=selected_field_of_study_id)
+    else:
+        skills = Skill.objects.all()
+    print(skills)
+    # Populate context with necessary data
+    context = {
+        "internship": internship,
+        "form": form,
+        "fields_of_study": FieldOfStudy.objects.all(),  # Maintain existing context
+        "select_options": select_options,  # Pass select options to the template
+        "skills": skills,  # Pass skills based on the selected field of study
+    }
+          
+    return render(request, 'recruiters/updateform.html', context)
 
 def send_application_status_notification(application):
   subject = f"Your Internship Application for {application.internship.title} - {application.status.upper()}"
@@ -147,5 +156,44 @@ def send_application_status_notification(application):
   recipient_list = [application.applicant.email,]
   send_mail(subject, message, email_from, recipient_list)
 
+def download_cv(request, application_id):
+    try:
+     application = get_object_or_404(Application, pk=application_id)
+     cv_file = application.cv
+
+     response = HttpResponse(cv_file, content_type='application/pdf')
+     response['Content-Disposition'] = 'attachment; filename="cv.pdf"'  # Change filename as per your file name
+
+     return response
+    except (Application.DoesNotExist, FileNotFoundError):
+        messages.error(request, 'CV not found.')
+        return redirect('applicant_details', application_id)
 
 
+def generate_pdf_report(request):
+    internships = Internship.objects.filter(recruiter=request.user) 
+    template_path = 'recruiters/posted_report.html'  # Path to your HTML template
+
+    # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+    logo_path = os.path.join(settings.STATICFILES_DIRS[0], 'images', 'org(3).png')
+    
+    context = {
+        'internships': internships,
+        'logo_path': logo_path,
+         'date': today_date
+    }
+    # Render template
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # Create a PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="internship_report.pdf"'
+
+    pisa_status = pisa.CreatePDF(
+        html, dest=response, encoding='utf-8')
+
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
