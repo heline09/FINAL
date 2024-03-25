@@ -11,6 +11,16 @@
 {{block.super}}
 <link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
 <link rel="stylesheet" type="text/css" href="{% static 'css/apply.css' %}" media="screen">
+<style>
+    label {
+        font-weight: bold;
+        font-size: 120%;
+    }
+    
+    body {
+        background-color: white;
+    }
+</style>
 {% endblock styles %}
 
 {% block content %}
@@ -19,7 +29,11 @@
     <h1>Apply to the Internship</h1>
     <form action="#" id="apply-form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-
+         
+        <div>
+            <label for="cv">My Profile Image:</label><br>
+            {{form.profile_image}}
+        </div>
         <div>
             <label for="cv">My CV:</label><br>
             {{form.cv}}

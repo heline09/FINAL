@@ -13,21 +13,26 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from reportlab.pdfgen import canvas
 from io import BytesIO
+from datetime import date
+#xhtml imports
+import os
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.template import Context
+from django.conf import settings
 
 @login_required
 def student_dashboard(request):
     student_skills = request.user.skills.all()
-    internships = []
-
-    valid_internships = Internship.get_all()
+    active_internships = []
 
     for skill in student_skills:
-        for internship in skill.internships.filter(id__in=valid_internships):
-            if internship not in internships: # to avoid repetition
-                internships.append(internship)
+        for internship in skill.internships.filter(is_active=True): # Filter only active internships
+            if internship not in active_internships: # to avoid repetition
+                active_internships.append(internship)
 
     context = {
-        'internships': internships,
+        'internships': active_internships,
     }
 
     return render(request, 'students/student_dashboard.html', context)
@@ -36,8 +41,13 @@ def student_dashboard(request):
 def applyPage(request, internship_id):
     internship = get_object_or_404(Internship, pk=internship_id)
     existing_application = Application.objects.filter(internship_id=internship_id, applicant=request.user).first() #check for existing application
-    
-    if internship.can_apply():
+    # filled_application = Application.objects.filter(internship_id=internship_id, status__in=['accepted']).exists()
+
+    # if filled_application:
+    #     messages.error(request, "Sorry, this internship has already been filled.")
+    #     return redirect('student_dashboard')
+
+    if not internship.can_apply():
         messages.error(request, 'Maximum response limit reached for this internship.')
         return redirect('student_dashboard')
 
@@ -81,7 +91,7 @@ def applyPage(request, internship_id):
 def MyApplications(request):
     applications = Application.objects.filter(applicant=request.user)
     return render(request, 'students/application.html', {'applications':applications})
-
+            
 @csrf_exempt
 def mark_as_read(request, notification_id):
     print("Mark as read", notification_id)
@@ -90,28 +100,30 @@ def mark_as_read(request, notification_id):
     notification.save()
     return JsonResponse({'success': True})  # Or a custom response
 
-@csrf_exempt
 def generate_report(request):
-    if request.method == 'POST':
-        # Get data from request
-        data = json.loads(request.body)
+    applications = Application.objects.filter(applicant=request.user) 
+    template_path = 'students/applied_report.html'  # Path to your HTML template
 
-        # Create PDF using ReportLab
-        buffer = BytesIO()
-        pdf = canvas.Canvas(buffer)
-        pdf.drawString(100, 750, "Application Report")  # Add report title
-        y = 730
-        for row in data['data']:
-            y -= 20
-            pdf.drawString(100, y, ', '.join(row))  # Add table data
-        pdf.showPage()
-        pdf.save()
+    # Get the current date
+    today_date = date.today().strftime("%B %d, %Y")
+    logo_path = os.path.join(settings.STATICFILES_DIRS[0], 'images', 'org(3).png')
+    
+    context = {
+        'applications': applications,
+        'logo_path': logo_path,
+         'date': today_date
+    }
+    # Render template
+    template = get_template(template_path)
+    html = template.render(context)
 
-        # Return the PDF as an HttpResponse
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="application_report.pdf"'
-        response.write(buffer.getvalue())
-        buffer.close()
-        return response
-    else:
-        return HttpResponse(status=400)
+    # Create a PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="application_report.pdf"'
+
+    pisa_status = pisa.CreatePDF(
+        html, dest=response, encoding='utf-8')
+
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

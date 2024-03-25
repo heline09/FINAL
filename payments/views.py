@@ -22,7 +22,7 @@ def payment_page(request, plan_id):
 
 @login_required
 def process_payment(request):
-    BASE_URL = 'https://6fad-62-8-66-216.ngrok-free.app/'
+    BASE_URL = 'https://e7e2-62-8-66-216.ngrok-free.app/'
 
     if request.method == 'POST':
         plan_id = request.POST.get('subscription_id')
@@ -53,12 +53,15 @@ def call_back_url(request, user_id, plan_id):
     print('call_back_url')
     if request.method == 'POST':
         results = MpesaClient().parse_stk_result(request.body)
+        print(results)
         result_code = results.get("ResultCode") # type -> Int
+        print(result_code)
         transaction_date = results.get("TransactionDate")  # Transaction date/time
         amount = results.get("Amount")
         receipt_number = results.get('MpesaReceiptNumber') # remember to add this to model and makemigrations 
 
         if result_code == 0: 
+           print(result)
            user = CustomUser.objects.get(id=user_id)
            subscription = SubscriptionPlan.objects.get(id=plan_id)
            MpesaPayment.objects.create(user=user, amount=amount, subscription=subscription, is_complete=True, reference_id=receipt_number)
@@ -73,15 +76,17 @@ def confirm_payment(request, plan_id):
     Ask the user if they have paid then check the database to verify 
     """
     mpesa_payment = MpesaPayment.objects.filter(user=request.user, subscription_id=plan_id)
+    print(mpesa_payment)
     if request.method=='POST':
         if mpesa_payment.exists():
+
             messages.success(request, 'Payment was successful')
             return redirect('recruiter_dashboard')
         else:
             messages.error(request, 'Payment does not exist')
             return redirect('payment_page', plan_id)
             
-    context = {}
+    context = {'plan_id': plan_id}
     return render(request, 'payments/confirm_payment.html', context)
    
 def MpesaPaymentConfirmation(request,mpesa_payment_id):

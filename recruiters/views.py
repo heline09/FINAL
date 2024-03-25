@@ -99,14 +99,14 @@ def applicant_details(request, application_id):
                 message=  applicant_notification_message 
                           )
        
-        # send_application_status_notification(application)    
+        send_application_status_notification(application)    
         return redirect('applicant_list', internship_id=application.internship.id) # return to applicants page after responding to the applications
             
     return render(request, 'students/applicant_details.html', {'application':application})
 
 def update_internship(request, id):
     internship = Internship.objects.get(id=id)
-
+    
     if request.method == 'POST':
         # Handle form submission for editing
         form = RecruiterForm(request.POST, instance=internship)  # Pre-populate the form
@@ -132,7 +132,6 @@ def update_internship(request, id):
         skills = Skill.objects.filter(fields_of_study_id=selected_field_of_study_id)
     else:
         skills = Skill.objects.all()
-    print(skills)
     # Populate context with necessary data
     context = {
         "internship": internship,
@@ -143,6 +142,27 @@ def update_internship(request, id):
     }
           
     return render(request, 'recruiters/updateform.html', context)
+
+def deactivate_internship(request, internship_id):
+    internship = Internship.objects.get(pk=internship_id)
+    internship.is_active = False
+    internship.save()
+
+    return redirect('posted')
+
+def confirmation_status_check(request, application_id):
+    # confirmed_applications = Application.objects.filter(is_confirmed=True)
+    application = get_object_or_404(Application, pk=application_id)
+    if application.status == 'accepted':
+        application.is_confirmed = True
+        application.internship.is_complete = True
+        application.internship.save()
+        application.save()
+        messages.success(request, 'Successfully Confirmed.')
+    else:
+        messages.error(request, 'Sorry, your application has not been accepted')
+    
+    return redirect('student_dashboard')  
 
 def send_application_status_notification(application):
   subject = f"Your Internship Application for {application.internship.title} - {application.status.upper()}"
@@ -168,7 +188,6 @@ def download_cv(request, application_id):
     except (Application.DoesNotExist, FileNotFoundError):
         messages.error(request, 'CV not found.')
         return redirect('applicant_details', application_id)
-
 
 def generate_pdf_report(request):
     internships = Internship.objects.filter(recruiter=request.user) 

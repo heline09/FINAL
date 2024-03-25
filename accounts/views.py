@@ -13,6 +13,7 @@ from datetime import timedelta
 from .models import StudentProfile, RecruiterProfile
 from django.conf import settings
 from django.core.mail import send_mail
+from PIL import Image
 
 
 def registerPage(request):
@@ -143,26 +144,26 @@ def recruiter_profile(request, user_id):
     context = {
     'recruiter_profile': recruiter_profile,
     'end_date': user_subscription.end_date if user_subscription else None
-}
+     }
     return render(request, 'accounts/recruiter_profile.html', context)
 
 def edit_profile(request):
-    student_profile = StudentProfile.objects.get(user=request.user)
-   #recruiter_profile = RecruiterProfile.objects.
+    if request.user.role =='student':
+        profile = StudentProfile.objects.get(user=request.user)
+    else:
+        profile = RecruiterProfile.objects.get(user=request.user)
     if request.method =='POST':
         user_form = EditUserForm(request.POST, instance=request.user)
         print("POST request received")
 
-        if(request.user, 'student.profile'):
-            profile_form = EditStudentProfileForm(request.POST, request.FILES, instance=request.user)
+        if request.user.role == 'student':
+            profile_form = EditStudentProfileForm(request.POST, request.FILES, instance=profile)
         else:
-            profile_form = EditRecruiterProfileForm(request.POST, request.FILES, instance=request.user)
-            print("User form is valid:", user_form.is_valid())
-            print("Prof form is valid:", profile_form.is_valid())
+            profile_form = EditRecruiterProfileForm(request.POST, request.FILES, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            if(request.user, 'student.profile'):
+            if request.user.role == 'student':
                 return redirect('student_profile', user_id=request.user.id)  # Redirect to student profile
             else:
                 return redirect('recruiter_profile', user_id=request.user.id)  # Redirect to recruiter 
@@ -170,32 +171,9 @@ def edit_profile(request):
     else:
         user_form = EditUserForm(instance=request.user)
         # Check if the user is student or recruiter based on their profile existence
-        if(request.user, 'student.profile'):
-            profile_form = EditStudentProfileForm(instance=request.user)
+        if request.user.role == 'student':
+            profile_form = EditStudentProfileForm(instance=profile)
         else:
-            profile_form = EditRecruiterProfileForm(instance=request.user)
+            profile_form = EditRecruiterProfileForm(instance=profile)
     context = {'user_form': user_form, 'profile_form': profile_form}
     return render(request, 'accounts/edit_profile.html', context)
-
-    # if request.method=='POST':
-    #     user_form = EditUserForm(request.POST, instance=request.user)
-    #     if hasattr(request.user, 'student_profile'):
-    #         profile_form = EditStudentProfileForm(request.POST, request.FILES, instance=request.user)
-    #         if user_form.is_valid() and profile_form.is_valid():
-    #           user_form.save()
-    #           profile_form.save()
-    #           messages.success(request, f'Your details have been updated successfully')
-    #           return redirect('student_profile', user_id)
-
-    # else:
-    #     user_form = EditUserForm(instance=request.user)
-    #     if hasattr(request.user, 'student_profile'):
-    #         profile_form = EditStudentProfileForm(instance=request.user.student_profile)
-    # context = {'user_form': user_form}
-        
-    # return render (request, 'accounts/edit_profile.html', context)
-
-
-
-
-

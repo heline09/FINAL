@@ -9,7 +9,9 @@ class SubscriptionPlan(models.Model):
     duration = models.IntegerField()  # Duration in days
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-
+    def __str__(self):
+        return self.name
+        
 class CustomUser(AbstractUser):
     email = models.EmailField(blank=False, max_length=254, verbose_name='email address', unique=True)
     subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True, blank=True)
@@ -67,7 +69,8 @@ def create_profile(sender, instance, created, **kwargs):
 class RecruiterProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     image = models.ImageField(default = 'default.jpg', upload_to='profile_pics')
-    subscription_plan = models.CharField(max_length=100)
+    # subscription_plan = models.CharField(max_length=100, null=True)
+    subscription_plan = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True, blank=False)
     company_name = models.CharField(max_length=100)
     
     def __str__(self):

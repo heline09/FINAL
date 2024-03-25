@@ -60,8 +60,11 @@
             <h2 class="job-title">{{ internship.title }}</h2>
             <p class="job-company">{{ internship.company }}</p>
             <p class="job-description">{{ internship.description }}</p>
-            <div class="job-expiry"><span style="color: rgb(228, 36, 62);">Expiry date:</span>{{ internship.expiry_date }}</div>
-            <div class="job-apply"></div>
+            <div class="job-expiry"><span style="color: rgb(67, 113, 165);">Posted on: </span>{{ internship.post_date }}
+            </div>
+            {% if not internship.can_apply %}
+            <span class="badge bg-danger">Maximum responses reached</span>
+            {% endif %}
         </div>
         {% empty %}
         <p>No internships found.</p>

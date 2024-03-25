@@ -13,6 +13,18 @@
     body {
         background: white;
     }
+
+    .nav-link4 {
+        padding: 10px;
+        background-color: #45526e;
+        border-radius: 12px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        width: 90px;
+        height: 60px;
+        margin-left: 100px;
+    }
 </style>
 {% endblock styles %}
 
@@ -34,6 +46,7 @@
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
             <th scope="col">View</th>
+            <th scope="col"></th>
             <!-- <th>Location</th> -->
             <!-- <th>Requirements</th>
                 <th>Recruiter</th> -->
@@ -41,6 +54,8 @@
     </thead>
     <tbody>
         {% for internship in internships %}
+        {% if internship.is_active %}
+
         <tr>
             <td>{{ internship.title }}</td>
             <td>{{ internship.company }}</td>
@@ -51,13 +66,21 @@
             <td><a href="{% url 'update_internship' internship.id %}"
                     style="padding: 2px 15px; background-color: #45526e; border-radius: 2rem; color: white; text-align: center; text-decoration: none;">edit</a>
             </td>
+            <td>
+                <a href="{% url 'deactivate_internship' internship.id %}"
+                    style="padding: 2px 15px; background-color: #45526e; border-radius: 2rem; color: white; text-align: center; text-decoration: none;">
+                    delete
+                </a>
+            </td>
             <!-- <td>{{ internship.skills }}</td> -->
             <!-- <td>{{ internship.requirements }}</td> -->
             <!-- <td>{{ internship.recruiter.username }}</td> -->
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>
-<a class="nav-link" href="{% url 'generate_pdf_report' %}">Download PDF Report</a>
+<a class="nav-link4" href="{% url 'generate_pdf_report' %}">Download
+    PDF Report</a>
 
 {% endblock %}

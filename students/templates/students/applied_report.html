@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Application report</title>
+    <style>
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <img class="logo" src="{{ logo_path }}" alt="Logo" style="width: 150px; height: auto;">
+    <h2 class="report-title" style="font-size: 40px; font-weight: bold;">Internconnect</h2>
+    <p style="text-align: right; font-size:15px; font-weight: bold;">Date: {{ date }}</p>
+    <h1 style="font-size: 15px;">Application Report</h1>
+
+    <table class="table container" id="applicationTable">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Internship Title</th>
+            <th scope="col">Company</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for application in applications %}
+          <tr>
+            <td>{{ application.internship.title }}</td>
+            <td>{{ application.internship.company}}</td>
+            <td>{{ application.internship.start_date }}</td>
+            <td>{{ application.internship.end_date }}</td>
+            <td>
+              {% if application.status == 'accepted' %}
+              <button style="background-color: rgb(70, 133, 70);">Accepted</button>
+              {% elif application.status == 'pending' %}
+              <button style="background-color: rgb(77, 77, 109); color: white;">Pending </button>
+              {% elif application.status == 'denied' %}
+              <button style="background-color: red;">Denied</button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</body>
+
+</html>

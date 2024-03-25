@@ -16,6 +16,8 @@ class Internship(models.Model):
     recruiter = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="posted_internships")
     skills = models.ManyToManyField(Skill, related_name='internships')
     max_responses = models.PositiveIntegerField()
+    is_active = models.BooleanField(default=True)
+    is_complete = models.BooleanField(default=False)
     # candidates = models.ManyToManyField(CustomUser, related_name='applied_internships')
 
     def __str__(self):
@@ -24,11 +26,11 @@ class Internship(models.Model):
    
     @classmethod
     def get_all(cls):
-        return cls.objects.filter(expiry_date__gte=date.today())
+        return cls.objects.filter(is_complete=False, is_active=True, expiry_date__gte=date.today())
     
     def can_apply(self):
         application_count = self.applications.count()
-        return application_count >= self.max_responses
+        return application_count < self.max_responses
 
 class Notification(models.Model):
     recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name='notifications')
@@ -37,6 +39,6 @@ class Notification(models.Model):
 
 
     def __str__(self):
-        return f"Notification to {self.recipient.username} - {self.message}"
+        return f"Notification to {self.recipient} - {self.message}"
         
-# Create your models here.
+

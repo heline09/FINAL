@@ -24,6 +24,10 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+   .form_group label {
+
+        display: block;
+    }
 </style>
 {% endblock styles %}
 
@@ -37,24 +41,35 @@
         <h2>Profile Information:</h2>
         <div class="form_group">
             <label for="username">Username:</label>
+            {{ user_form.username }}
         </div>
-        {{ user_form.username }}
         <div class="form_group">
             <label for="email">Email:</label>
+            {{ user_form.email }}
         </div>
-        {{ user_form.email }}
         <div class="form_group">
             <label for="image">Profile Image:</label>
+            {{ profile_form.image }}
         </div>
-        {{ profile_form.image }}
+        {% if user.role == 'student' %}
         <div class="form_group">
             <label for="skills">Skills</label>
+            {{profile_form.skills}}
         </div>
-        {{profile_form.skills}}
         <div class="form_group">
             <label for="cv">CV:</label>
+            {{ profile_form.cv }}
         </div>
-        {{ profile_form.cv }}
+        {% else %}
+        <div class="form_group">
+            <label for="subscription_plan">Subscription Plan</label>
+            {{profile_form.subscription_plan}}
+        </div>
+        <div class="form_group">
+            <label for="company_name">Company:</label>
+            {{profile_form.company_name}}
+        </div>
+        {% endif %}
         <br><br>
         <button type="submit" style="background-color: #787c7e;">Update Profile</button>
     </form>

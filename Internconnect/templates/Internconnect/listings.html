@@ -17,6 +17,9 @@
   <input type="text" id="search-input" class="search-bar" placeholder="Search internships...">
   <button id="search-button" class="btn-outline-secondary">Search</button>
 </div>
+<div>
+     <button onclick="window.history.back()" class="button home" style="margin-left: 1300px; padding: 0.5rem;">Back</button>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const searchButtonElement = document.getElementById('search-button');
@@ -69,8 +72,10 @@
     <h2 class="job-title">{{ internship.title }}</h2>
     <p class="job-company">{{ internship.company }}</p>
     <p class="job-description">{{ internship.description }}</p>
-    <div class="job-expiry"><span style="color: rgb(228, 36, 62);">Expiry date:</span>{{ internship.expiry_date }}</div>
-    <div class="job-apply"></div>
+    <div class="job-expiry"><span style="color: rgb(67, 113, 165);">Posted on: </span>{{ internship.post_date }}</div>
+    {% if not internship.can_apply %}
+    <span class="badge bg-danger">Maximum responses reached</span>
+    {% endif %}
   </div>
   </a>
   {% endfor %}

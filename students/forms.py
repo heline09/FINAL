@@ -8,7 +8,7 @@ from django.utils import timezone
 class ApplicationForm(ModelForm):
     cv = forms.FileField(label='My CV', help_text='Upload your CV (PDF, DOC, DOCX)')
     application_message = forms.CharField(label='My Application Message', widget=forms.Textarea(attrs={'rows': 4, 'cols': 50}), help_text='Enter your application message here')
-
+    profile_image = forms.ImageField(label='Profile Image')
     
     def clean_cv(self):
         cv = self.cleaned_data['cv']
@@ -22,4 +22,4 @@ class ApplicationForm(ModelForm):
 
     class Meta:
         model = Application
-        fields = ['cv', 'application_message']
+        fields = ['cv', 'application_message', 'profile_image']

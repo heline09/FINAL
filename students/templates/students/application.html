@@ -15,6 +15,20 @@
   body {
     background: white;
   }
+  .nav-link4{
+        padding: 10px;
+        background-color: #45526e;
+        border-radius: 12px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        width: 90px;
+        height: 60px;
+        margin-left: 100px;
+    }
+    #statusFilter{
+      margin-left: 1250px;
+    }
 </style>
 <link rel="stylesheet" type="text/css" href="{% static 'css/recdash.css' %}" media="screen">
 {% endblock styles %}
@@ -25,6 +39,8 @@
 
 <h2 class="container">My Applications</h2>
 <br>
+ 
+<label for="status-filter" style="margin-left: 1250px;">Filter status:</label>
 <select id="statusFilter">
   <option value="all">All</option>
   <option value="accepted">Accepted</option>
@@ -41,6 +57,7 @@
       <th scope="col">Start Date</th>
       <th scope="col">End Date</th>
       <th scope="col">Status</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -59,11 +76,16 @@
         <button style="background-color: red;">Denied</button>
         {% endif %}
       </td>
+      <td>
+        {% if application.status == 'accepted' and not application.is_confirmed %}
+        <a href="{% url 'confirmation_status_check' application.id %}" class="btn btn-primary">Confirm</a>
+        {% endif %}
+      </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-<button onclick="generatePDF()" class="submit" style="margin-left: 90px;">Generate PDF</button>
+<a class="nav-link4" href="{% url 'generate_report' %}">Download PDF Report</a>
 {% block scripts %}
 <script>
   // Function to filter data based on selected status
@@ -87,34 +109,6 @@
     var selectedStatus = this.value;
     filterDataByStatus(selectedStatus);
   });
-
-  // Function to generate PDF report
-  function generatePDF() {
-    // Get filtered data (visible rows in the table)
-    var visibleRows = document.querySelectorAll('#applicationTable tbody tr');
-
-    // Prepare data array
-    var data = [];
-    visibleRows.forEach(function (row) {
-      var rowData = [];
-      row.querySelectorAll('td').forEach(function (cell) {
-        rowData.push(cell.innerText);
-      });
-      data.push(rowData);
-    });
-
-    // Send data to Django view for PDF generation
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/students/applications/generate_report/', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        // PDF generation successful
-        console.log('PDF generated successfully.');
-      }
-    };
-    xhr.send(JSON.stringify(data));
-  }
 </script>
 
 {% endblock scripts %}

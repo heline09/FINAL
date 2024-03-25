@@ -15,9 +15,7 @@ def listings(request):
 def home(request):
     return render(request, 'internconnect/landing.html')
 
-
 def details(request, internship_id):
      internship = get_object_or_404(Internship, pk=internship_id)
      return render(request, 'internconnect/details.html', {'internship':internship})
 
-# Create your views here.

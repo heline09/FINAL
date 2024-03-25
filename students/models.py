@@ -13,7 +13,8 @@ class Application(models.Model):
     cv = models.FileField(upload_to= 'cvs/', validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx'])])
     application_message = models.TextField()
     apply_date = models.DateTimeField(default=timezone.now)
-    
+    profile_image = models.ImageField(upload_to='profile_pics', default = 'default.jpg') 
+    is_confirmed = models.BooleanField(default=False)
 
     STATUS_CHOICES = [
         ('accepted', 'Accepted')    ,

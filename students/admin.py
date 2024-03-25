@@ -13,12 +13,13 @@ from datetime import datetime
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    form = ApplicationForm
-    list_display = ['id', 'internship', 'apply_date']
-    list_filter = ('applicant', 'apply_date') 
+   # form = ApplicationForm
+    list_display = ['id', 'internship', 'apply_date', 'status']
+    list_filter = ('applicant', 'apply_date', 'status') 
 
     def username(self, obj):
         return obj.applicant.username
+    
     
     def apply_date(self, obj):
         return obj.apply_date
@@ -42,14 +43,14 @@ class ApplicationAdmin(admin.ModelAdmin):
 
      # Add logo at the top
         logo_path = os.path.join(settings.STATICFILES_DIRS[0], 'images', 'org(3).png')
-        logo = Image(logo_path, width=0.5*inch, height=0.5*inch)
+        logo = Image(logo_path, width=1.5*inch, height=1.5*inch)
         elements.append(logo)
 
      # Add space after the logo
         elements.append(Paragraph("<br/>", getSampleStyleSheet()['Normal']))
 
      # Add system name before the heading
-        system_name = Paragraph("<b>System:</b> Intenconnect", getSampleStyleSheet()['Normal'])
+        system_name = Paragraph("<b>System:</b> Internconnect", getSampleStyleSheet()['Normal'])
         elements.append(system_name)
 
 
@@ -70,15 +71,21 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 
      # table data
-        data = [['Applicant', 'Internship', 'apply_date']]
-        for application in queryset:
-            data.append([application.applicant.username, application.internship, application.apply_date])
+        data = [['#','Applicant', 'Internship', 'apply_date', 'status']]
+        for index, application in enumerate(queryset, start=1):
+            formatted_date = application.apply_date.strftime("%Y-%m-%d")
+            data.append([index, application.applicant.username, application.internship, formatted_date, application.status])
 
      # Calculate column widths
         num_cols = len(data[0])
-        table_width = letter[0] - inch * 2  # Subtracting 2 inches for left and right margins
+        table_width = letter[0] - inch * 0.5 # Subtracting 2 inches for left and right margins
         col_width = table_width / num_cols
         col_widths = [col_width] * num_cols
+
+
+        col_widths[0] -= 0.7 * inch 
+        
+        col_widths[2] += inch
 
      # Create a table with specified column widths
         table = Table(data, colWidths=col_widths)
