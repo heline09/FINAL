@@ -26,7 +26,7 @@ class Internship(models.Model):
    
     @classmethod
     def get_all(cls):
-        return cls.objects.filter(is_complete=False, is_active=True, expiry_date__gte=date.today())
+        return cls.objects.filter( is_active=True, expiry_date__gte=date.today())
     
     def can_apply(self):
         application_count = self.applications.count()
